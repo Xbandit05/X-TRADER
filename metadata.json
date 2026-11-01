@@ -1,0 +1,6 @@
+{
+  "name": "BANDITRADES — Smart Trading Intelligence & Journal",
+  "description": "Professional multi-user trading journal and intelligence platform combining automated trade grading, live market analysis, prop-firm tracking, and Bandit AI coaching.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
