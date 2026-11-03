@@ -674,18 +674,18 @@ export const TradeModal: React.FC<TradeModalProps> = ({
           </div>
 
           {/* Modal Footer */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-[#252D38]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-[#222E42]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-[#AAB3BF] hover:text-slate-900 dark:hover:text-white transition-colors"
+              className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 rounded-xl bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] font-bold text-xs transition-all shadow-md active:scale-98 disabled:opacity-50"
+              className="px-5 py-2 rounded-xl bg-[#00B2FE] hover:bg-[#009BE0] text-[#090D14] font-bold text-xs transition-all shadow-md active:scale-98 disabled:opacity-50"
             >
               {saving ? 'Saving...' : editTrade ? 'Save Changes' : 'Confirm & Grade Trade'}
             </button>

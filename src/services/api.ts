@@ -111,6 +111,14 @@ export const api = {
     return res.json() as Promise<Trade[]>;
   },
 
+  async getTrade(id: string) {
+    const res = await fetch(`${API_BASE}/trades/${id}`, {
+      headers: { ...getAuthHeader() }
+    });
+    if (!res.ok) return null;
+    return res.json() as Promise<Trade>;
+  },
+
   async createTrade(trade: Partial<Trade>) {
     const res = await fetch(`${API_BASE}/trades`, {
       method: 'POST',
@@ -318,6 +326,45 @@ export const api = {
       body: JSON.stringify({ message, system, activeSymbol })
     });
     return res.json() as Promise<{ text: string; citedTrades?: any[] }>;
+  },
+
+  async chatWithCloudAi(message: string, system: 'performance' | 'market' | 'risk', activeSymbol?: CanonicalInstrument) {
+    return this.chatWithBandit(message, system, activeSymbol);
+  },
+
+  async getAiLiveFeed(symbol?: CanonicalInstrument) {
+    const sym = symbol ? `?symbol=${symbol}` : '';
+    const res = await fetch(`${API_BASE}/ai/live-feed${sym}`, {
+      headers: { ...getAuthHeader() }
+    });
+    return res.json();
+  },
+
+  async generateSpeech(text: string) {
+    const res = await fetch(`${API_BASE}/ai/tts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+    if (!res.ok) {
+      return null;
+    }
+    return res.json() as Promise<{ audioBase64: string; mimeType: string }>;
+  },
+
+  async fetchAiData(queryType: 'market' | 'portfolio' | 'strategy' | 'risk' | 'macro', symbol?: CanonicalInstrument) {
+    const res = await fetch(`${API_BASE}/ai/fetch-data`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify({ queryType, symbol })
+    });
+    return res.json() as Promise<{
+      queryType: string;
+      symbol: CanonicalInstrument;
+      timestamp: string;
+      summary: string;
+      data: any;
+    }>;
   },
 
   async getDailyBriefing() {

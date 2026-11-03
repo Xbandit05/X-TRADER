@@ -390,4 +390,11 @@ export interface AiChatMessage {
     price: number;
     bias: string;
   };
+  fetchedData?: {
+    queryType: string;
+    symbol?: CanonicalInstrument;
+    timestamp: string;
+    payload: any;
+  };
+  audioBase64?: string;
 }

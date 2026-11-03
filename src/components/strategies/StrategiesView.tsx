@@ -229,20 +229,20 @@ export const StrategiesView: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top Banner: TradeZella Style Header */}
-      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-[#00C781] tracking-wider uppercase">
+            <span className="text-xs font-mono font-bold text-[#00B2FE] tracking-wider uppercase">
               STRATEGY LAB &amp; RULEBOOK
             </span>
             <span className="text-slate-300 dark:text-slate-700">·</span>
-            <span className="text-xs font-mono text-slate-500">BANDIT DISCIPLINE ENGINE</span>
+            <span className="text-xs font-mono text-slate-500">CLOUD X DISCIPLINE ENGINE</span>
           </div>
-          <h2 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-[#F4F6F8] tracking-tight mt-0.5">
+          <h2 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-[#F8FAFC] tracking-tight mt-0.5">
             Systematic Setup Architecture &amp; Playbook
           </h2>
-          <p className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
-            Institutional trading models. The Trade Grading Engine and Bandit AI evaluate every execution against these exact criteria.
+          <p className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
+            Institutional trading models. The Trade Grading Engine and Cloud AI evaluate every execution against these exact criteria.
           </p>
         </div>
 
@@ -252,9 +252,9 @@ export const StrategiesView: React.FC = () => {
               setIsCreating(true);
               handleApplyTemplate('primary');
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#1B222B] dark:hover:bg-[#252D38] text-slate-800 dark:text-[#F4F6F8] text-xs font-bold transition-all border border-slate-200 dark:border-[#2E3845]"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#18202F] dark:hover:bg-[#222E42] text-slate-800 dark:text-[#F8FAFC] text-xs font-bold transition-all border border-slate-200 dark:border-[#222E42]"
           >
-            <Sparkles size={14} className="text-[#00C781]" />
+            <Sparkles size={14} className="text-[#00B2FE]" />
             <span>Load Primary Template</span>
           </button>
           <button
@@ -262,7 +262,7 @@ export const StrategiesView: React.FC = () => {
               setIsCreating(true);
               setSelectedStrategy(null);
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] text-xs font-bold transition-all shadow-xs"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#00B2FE] hover:bg-[#009BE0] text-[#090D14] text-xs font-bold transition-all shadow-xs"
           >
             <Plus size={16} strokeWidth={2.5} />
             <span>Build New Model</span>
@@ -273,12 +273,12 @@ export const StrategiesView: React.FC = () => {
       {/* Main Workspace Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left Column: Strategy Playbook Cards (4 Cols) */}
-        <div className="lg:col-span-4 p-4 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] space-y-3 shadow-xs">
+        <div className="lg:col-span-4 p-4 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-3 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 dark:text-[#AAB3BF] uppercase tracking-wider">
+            <span className="text-xs font-bold text-slate-500 dark:text-[#94A3B8] uppercase tracking-wider">
               Playbook Models ({strategies.length})
             </span>
-            <span className="text-[11px] font-mono text-[#00C781]">ACTIVE</span>
+            <span className="text-[11px] font-mono text-[#00B2FE]">ACTIVE</span>
           </div>
 
           <div className="space-y-2.5">
@@ -295,8 +295,8 @@ export const StrategiesView: React.FC = () => {
                   }}
                   className={`p-4 rounded-xl border cursor-pointer transition-all ${
                     isSelected
-                      ? 'border-[#00C781] bg-[#00C781]/5 dark:bg-[#1B222B] shadow-xs'
-                      : 'border-slate-200 dark:border-[#252D38] hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-[#151A20]'
+                      ? 'border-[#00B2FE] bg-[#00B2FE]/5 dark:bg-[#18202F] shadow-xs ring-1 ring-[#00B2FE]'
+                      : 'border-slate-200 dark:border-[#1C2638] hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-[#0F141F]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2 mb-1.5">

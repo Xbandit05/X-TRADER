@@ -12,7 +12,10 @@ import {
   generatePerformanceReview,
   generateMarketIntelligenceBriefing,
   generateRiskIntelligenceReview,
-  chatWithBandit
+  chatWithBandit,
+  chatWithCloudAi,
+  generateAiSpeech,
+  assembleLiveContext
 } from './server/gemini.ts';
 import {
   CanonicalInstrument,
@@ -237,6 +240,12 @@ app.get('/api/trades', (req: Request, res: Response) => {
   }
 
   return res.json(trades);
+});
+
+app.get('/api/trades/:id', (req: Request, res: Response) => {
+  const trade = db.trades.get(req.params.id);
+  if (!trade) return res.status(404).json({ error: 'Trade not found' });
+  return res.json(trade);
 });
 
 app.post('/api/trades', (req: Request, res: Response) => {
@@ -615,7 +624,7 @@ app.post('/api/ai/chat', async (req: Request, res: Response) => {
   const accounts = db.getUserAccounts(userId);
   const consistency = db.consistencyRules.get(userId);
 
-  const result = await chatWithBandit(message, {
+  const result = await chatWithCloudAi(message, {
     system: system || 'performance',
     trades,
     accounts,
@@ -624,6 +633,118 @@ app.post('/api/ai/chat', async (req: Request, res: Response) => {
   });
 
   return res.json(result);
+});
+
+app.get('/api/ai/live-feed', (req: Request, res: Response) => {
+  const userId = getRequestUserId(req);
+  const symbol = resolveCanonical((req.query.symbol as string) || 'US100');
+  const trades = db.getUserTrades(userId);
+  const accounts = db.getUserAccounts(userId);
+  const consistency = db.consistencyRules.get(userId);
+  const liveContext = assembleLiveContext(trades, accounts, symbol, consistency);
+  return res.json(liveContext);
+});
+
+app.post('/api/ai/tts', async (req: Request, res: Response) => {
+  const { text } = req.body;
+  if (!text || typeof text !== 'string') {
+    return res.status(400).json({ error: 'Text is required for TTS synthesis' });
+  }
+  const speech = await generateAiSpeech(text);
+  if (!speech) {
+    return res.status(503).json({ error: 'Audio synthesis unavailable or API key not configured' });
+  }
+  return res.json(speech);
+});
+
+app.post('/api/ai/fetch-data', async (req: Request, res: Response) => {
+  const userId = getRequestUserId(req);
+  const { queryType, symbol: inputSymbol } = req.body;
+  const symbol = resolveCanonical(inputSymbol || 'US100');
+  const trades = db.getUserTrades(userId);
+  const accounts = db.getUserAccounts(userId);
+  const consistency = db.consistencyRules.get(userId);
+  const quotes = marketService.getQuotes();
+  const structure = marketService.getMarketStructure(symbol);
+  const eco = marketService.getEconomicCalendar();
+  const activeQuote = quotes.find(q => q.symbol === symbol) || quotes[0];
+
+  let summary = '';
+  let dataPayload: any = {};
+
+  switch (queryType) {
+    case 'market': {
+      dataPayload = {
+        symbol,
+        quote: activeQuote,
+        allQuotes: quotes,
+        structure,
+        providerStatus: marketService.getProviderStatus()
+      };
+      summary = `Live market feed synchronized. ${symbol} is quoting at ${activeQuote.lastPrice} (Bid: ${activeQuote.bid}, Ask: ${activeQuote.ask}). 24h change: ${activeQuote.change24hPercent >= 0 ? '+' : ''}${activeQuote.change24hPercent.toFixed(2)}%. Trading status: ${activeQuote.isMarketOpen ? 'Session Live' : 'Market Closed (Settlement freeze)'}.`;
+      break;
+    }
+    case 'portfolio': {
+      const closedTrades = trades.filter(t => t.exitPrice > 0);
+      const wins = closedTrades.filter(t => t.netProfitLoss > 0).length;
+      const totalPnL = closedTrades.reduce((acc, t) => acc + t.netProfitLoss, 0);
+      const winRate = closedTrades.length > 0 ? ((wins / closedTrades.length) * 100).toFixed(1) : '0';
+      dataPayload = {
+        totalTrades: trades.length,
+        closedTrades: closedTrades.length,
+        winRate: `${winRate}%`,
+        netPnL: totalPnL,
+        accounts: accounts.map(a => ({ id: a.id, name: a.name, balance: a.currentBalance, equity: a.currentEquity })),
+        recentTrades: closedTrades.slice(0, 5)
+      };
+      summary = `Portfolio records audited: ${closedTrades.length} closed trades. Net realized P&L: $${totalPnL.toLocaleString()}. Win rate: ${winRate}%. Primary active account equity: $${accounts[0]?.currentEquity?.toLocaleString() || '0'}.`;
+      break;
+    }
+    case 'strategy': {
+      const retestTrades = trades.filter(t => t.retestOccurred !== false);
+      const fvgs = structure.filter(s => s.type === 'FVG');
+      dataPayload = {
+        goldenRule: 'NO RETEST = NO TRADE',
+        retestRate: `${trades.length > 0 ? ((retestTrades.length / trades.length) * 100).toFixed(1) : 100}%`,
+        activeKeyLevels: structure,
+        unmitigatedFVGs: fvgs
+      };
+      summary = `Systematic Strategy Scan: "NO RETEST = NO TRADE" compliance is at ${dataPayload.retestRate}. Identified ${fvgs.length} unmitigated Fair Value Gaps across ${symbol}. Recommend waiting for 50% consequent encroachment before execution.`;
+      break;
+    }
+    case 'risk': {
+      const primaryAcc = accounts[0];
+      const rules = primaryAcc?.challengeRules;
+      dataPayload = {
+        accountName: primaryAcc?.name || 'Primary Trading Account',
+        currentEquity: primaryAcc?.currentEquity || 0,
+        disciplineScore: consistency?.disciplineScore ?? 92,
+        dailyDrawdownLimit: rules?.maxDailyDrawdownAmount ?? 2500,
+        maxLossLimit: rules?.maxOverallDrawdownAmount ?? 5000,
+        recommendedRiskPct: '1.0% ($' + ((primaryAcc?.currentEquity || 100000) * 0.01).toFixed(0) + ')'
+      };
+      summary = `Risk & Challenge Buffer: Daily drawdown buffer intact at $${dataPayload.dailyDrawdownLimit.toLocaleString()}. Maximum risk per trade locked at 1.0% ($${((primaryAcc?.currentEquity || 100000) * 0.01).toFixed(0)}). Discipline score: ${dataPayload.disciplineScore}/100.`;
+      break;
+    }
+    case 'macro':
+    default: {
+      dataPayload = {
+        economicCalendar: eco.slice(0, 5),
+        fedSpeakers: 'No FOMC blackout currently in effect',
+        liquidityWindow: 'NY AM session (09:30 - 11:30 AM EST)'
+      };
+      summary = `Macro Intelligence Feed: Tracking ${eco.length} high-impact catalyst events this week. Top event: ${eco[0]?.name || 'CPI Release'} (${eco[0]?.currency || 'USD'}) scheduled for ${eco[0]?.scheduledTime || 'Upcoming'}.`;
+      break;
+    }
+  }
+
+  return res.json({
+    queryType,
+    symbol,
+    timestamp: new Date().toISOString(),
+    summary,
+    data: dataPayload
+  });
 });
 
 app.get('/api/ai/daily-briefing', async (req: Request, res: Response) => {

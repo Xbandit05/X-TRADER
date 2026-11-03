@@ -25,7 +25,7 @@ export const SettingsView: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   const [fullName, setFullName] = useState(user?.fullName || 'Alex Vance');
-  const [email, setEmail] = useState(user?.email || 'bandit@banditrades.com');
+  const [email, setEmail] = useState(user?.email || 'trader@cloudx.io');
   const [riskTolerance, setRiskTolerance] = useState(user?.riskTolerancePercent || 1.0);
   const [maxDailyDD, setMaxDailyDD] = useState(user?.maxDailyDrawdownPercent || 3.0);
   const [dailyWarning, setDailyWarning] = useState(user?.dailyLossWarningPercent || 2.0);
@@ -40,11 +40,11 @@ export const SettingsView: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Header */}
-      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B]">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-[#F4F6F8]">
+      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926]">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-[#F8FAFC]">
           Workspace Configuration &amp; Subscription Entitlements
         </h2>
-        <p className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
+        <p className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
           Manage your account profile, risk parameters, and prop-firm compliance limits
         </p>
       </div>
@@ -53,41 +53,41 @@ export const SettingsView: React.FC = () => {
         {/* Left Column: Profile & Risk Limits (7 cols) */}
         <div className="lg:col-span-7 space-y-5">
           {/* User Profile Form */}
-          <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] space-y-4">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-[#F4F6F8] uppercase tracking-wider text-xs">
+          <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-4">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] uppercase tracking-wider text-xs">
               Trader Identity &amp; Workspace Profile
             </h3>
 
             <form onSubmit={handleSave} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-500 dark:text-[#AAB3BF] mb-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-[#94A3B8] mb-1">
                     Full Name
                   </label>
                   <input
                     type="text"
                     value={fullName}
                     onChange={e => setFullName(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#151A20] text-slate-900 dark:text-[#F4F6F8]"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-slate-900 dark:text-[#F8FAFC]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-500 dark:text-[#AAB3BF] mb-1">
+                  <label className="block text-[11px] font-bold text-slate-500 dark:text-[#94A3B8] mb-1">
                     Email Address
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#151A20] text-slate-900 dark:text-[#F4F6F8]"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-slate-900 dark:text-[#F8FAFC]"
                   />
                 </div>
               </div>
 
               {/* Risk Settings */}
-              <div className="pt-3 border-t border-slate-100 dark:border-[#252D38] space-y-3">
-                <div className="text-[11px] font-bold uppercase text-slate-500 dark:text-[#AAB3BF]">
+              <div className="pt-3 border-t border-slate-100 dark:border-[#1C2638] space-y-3">
+                <div className="text-[11px] font-bold uppercase text-slate-500 dark:text-[#94A3B8]">
                   Risk Safeguards &amp; Warning Limits
                 </div>
 
@@ -129,7 +129,7 @@ export const SettingsView: React.FC = () => {
 
               <div className="flex items-center justify-between pt-2">
                 {savedSuccess && (
-                  <span className="text-xs text-[#00C781] font-semibold flex items-center gap-1">
+                  <span className="text-xs text-[#10B981] font-semibold flex items-center gap-1">
                     <CheckCircle2 size={14} /> Settings updated successfully.
                   </span>
                 )}
@@ -137,7 +137,7 @@ export const SettingsView: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] font-bold text-xs transition-all shadow-xs"
+                  className="px-5 py-2 rounded-xl bg-[#00B2FE] hover:bg-[#009BE0] text-[#090D14] font-bold text-xs transition-all shadow-xs"
                 >
                   Save Preferences
                 </button>
@@ -146,26 +146,26 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* Canonical Instruments Reference & Aliases */}
-          <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] space-y-3">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-[#F4F6F8] uppercase tracking-wider text-xs">
+          <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-3">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] uppercase tracking-wider text-xs">
               Supported 5 Canonical Instruments &amp; Aliases
             </h3>
-            <p className="text-xs text-slate-500 dark:text-[#AAB3BF]">
-              Broker-specific symbols automatically resolve to their canonical instrument in BANDITRADES:
+            <p className="text-xs text-slate-500 dark:text-[#94A3B8]">
+              Broker-specific symbols automatically resolve to their canonical instrument in Cloud X:
             </p>
 
             <div className="space-y-2 pt-1">
               {Object.entries(CANONICAL_INSTRUMENTS).map(([sym, meta]) => (
                 <div
                   key={sym}
-                  className="p-3 rounded-xl border border-slate-100 dark:border-[#252D38] bg-slate-50/50 dark:bg-[#151A20]/40 flex items-center justify-between text-xs"
+                  className="p-3 rounded-xl border border-slate-100 dark:border-[#1C2638] bg-slate-50/50 dark:bg-[#0F141F]/40 flex items-center justify-between text-xs"
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-slate-900 dark:text-[#F4F6F8]">
+                      <span className="font-mono font-bold text-slate-900 dark:text-[#F8FAFC]">
                         {sym}
                       </span>
-                      <span className="text-slate-500 dark:text-[#AAB3BF]">
+                      <span className="text-slate-500 dark:text-[#94A3B8]">
                         ({meta.name})
                       </span>
                     </div>
@@ -173,7 +173,7 @@ export const SettingsView: React.FC = () => {
                       Aliases: {meta.aliases.join(', ')}
                     </div>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-200 dark:bg-[#252D38] text-slate-600 dark:text-slate-300">
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-200 dark:bg-[#1C2638] text-slate-600 dark:text-slate-300">
                     Pip: {meta.pipSize}
                   </span>
                 </div>
@@ -185,25 +185,25 @@ export const SettingsView: React.FC = () => {
         {/* Right Column: Subscription Tiers & Workspace Actions (5 cols) */}
         <div className="lg:col-span-5 space-y-5">
           {/* Subscription Tiers (Section 22) */}
-          <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] space-y-4">
+          <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-mono font-bold text-[#00C781] uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold text-[#00B2FE] uppercase tracking-wider">
                   MEMBERSHIP
                 </span>
-                <h3 className="text-base font-bold text-slate-900 dark:text-[#F4F6F8]">
-                  Bandit Intelligence Tiers
+                <h3 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC]">
+                  Cloud X Intelligence Tiers
                 </h3>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#00C781]/15 text-[#00C781] font-mono text-xs font-bold uppercase">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#00B2FE]/15 text-[#00B2FE] font-mono text-xs font-bold uppercase">
                 {user?.subscriptionTier || 'PRO'} TIER ACTIVE
               </span>
             </div>
 
             <div className="space-y-3 pt-1">
               {/* Free Tier */}
-              <div className="p-3.5 rounded-xl border border-slate-100 dark:border-[#252D38] bg-slate-50/50 dark:bg-[#151A20]/40 text-xs space-y-1">
-                <div className="font-bold text-slate-800 dark:text-[#F4F6F8] flex justify-between">
+              <div className="p-3.5 rounded-xl border border-slate-100 dark:border-[#1C2638] bg-slate-50/50 dark:bg-[#0F141F]/40 text-xs space-y-1">
+                <div className="font-bold text-slate-800 dark:text-[#F8FAFC] flex justify-between">
                   <span>FREE</span>
                   <span className="font-mono text-slate-400">$0 / mo</span>
                 </div>
@@ -213,9 +213,9 @@ export const SettingsView: React.FC = () => {
               </div>
 
               {/* Pro Tier (Current) */}
-              <div className="p-3.5 rounded-xl border border-[#00C781]/40 bg-[#00C781]/10 text-xs space-y-1 relative">
+              <div className="p-3.5 rounded-xl border border-[#00B2FE]/40 bg-[#00B2FE]/10 text-xs space-y-1 relative">
                 <div className="font-bold text-slate-900 dark:text-white flex justify-between">
-                  <span className="flex items-center gap-1.5 text-[#00C781]">
+                  <span className="flex items-center gap-1.5 text-[#00B2FE]">
                     <Sparkles size={14} /> PRO (Current Plan)
                   </span>
                   <span className="font-mono text-[#00C781] font-bold">$39 / mo</span>

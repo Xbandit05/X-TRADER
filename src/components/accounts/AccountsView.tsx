@@ -88,17 +88,17 @@ export const AccountsView: React.FC = () => {
       {/* Header */}
       <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 dark:text-[#F4F6F8]">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-[#F8FAFC]">
             Professional Accounts &amp; Prop-Firm Challenge Monitor
           </h2>
-          <p className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
             Real-time balance tracking, drawdown meters, and profit target milestone surveillance
           </p>
         </div>
 
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] text-xs font-bold transition-all shadow-xs shrink-0"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#00B2FE] hover:bg-[#009BE0] text-[#090D14] text-xs font-bold transition-all shadow-xs shrink-0"
         >
           <Plus size={16} strokeWidth={2.5} />
           <span>Add Trading Account</span>
@@ -125,8 +125,8 @@ export const AccountsView: React.FC = () => {
               onClick={() => setSelectedAccount(acc)}
               className={`p-5 rounded-2xl border cursor-pointer transition-all space-y-4 ${
                 isSelected
-                  ? 'border-[#00C781]/70 bg-slate-50 dark:bg-[#222B36] shadow-md ring-1 ring-[#00C781]/50'
-                  : 'border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] hover:border-slate-300 dark:hover:border-slate-700'
+                  ? 'border-[#00B2FE] bg-slate-50 dark:bg-[#18202F] shadow-md ring-1 ring-[#00B2FE]'
+                  : 'border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] hover:border-slate-300 dark:hover:border-[#00B2FE]/40'
               }`}
             >
               <div className="flex items-start justify-between">
@@ -134,36 +134,36 @@ export const AccountsView: React.FC = () => {
                   <span
                     className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded ${
                       acc.accountType === 'prop_funded'
-                        ? 'bg-[#00C781]/20 text-[#00C781]'
+                        ? 'bg-[#10B981]/20 text-[#10B981]'
                         : acc.accountType === 'prop_evaluation'
                         ? 'bg-amber-500/20 text-amber-400'
-                        : 'bg-blue-500/20 text-blue-400'
+                        : 'bg-[#00B2FE]/20 text-[#00B2FE]'
                     }`}
                   >
                     {acc.accountType.replace('_', ' ')}
                   </span>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-[#F4F6F8] mt-1.5 truncate">
+                  <h3 className="font-bold text-sm text-slate-900 dark:text-[#F8FAFC] mt-1.5 truncate">
                     {acc.name}
                   </h3>
                   <div className="text-[11px] text-slate-400 font-mono">{acc.brokerOrFirm}</div>
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] font-mono uppercase text-[#00C781] font-bold">
+                  <span className="text-[10px] font-mono uppercase text-[#00B2FE] font-bold">
                     {acc.status}
                   </span>
                 </div>
               </div>
 
               {/* Balances */}
-              <div className="p-3 rounded-xl bg-slate-100 dark:bg-[#151A20] space-y-1 font-mono">
+              <div className="p-3 rounded-xl bg-slate-100 dark:bg-[#0F141F] space-y-1 font-mono">
                 <div className="text-[10px] text-slate-400 uppercase">Current Equity</div>
-                <div className="text-xl font-bold text-slate-900 dark:text-[#F4F6F8] tabular-nums">
+                <div className="text-xl font-bold text-slate-900 dark:text-[#F8FAFC] tabular-nums">
                   ${acc.currentBalance.toLocaleString()}
                 </div>
-                <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-200 dark:border-[#252D38]">
+                <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-200 dark:border-[#1C2638]">
                   <span className="text-slate-400">Total P&amp;L:</span>
-                  <span className={`font-bold ${profit >= 0 ? 'text-[#00C781]' : 'text-red-400'}`}>
+                  <span className={`font-bold ${profit >= 0 ? 'text-[#10B981]' : 'text-rose-400'}`}>
                     {profit >= 0 ? `+$${profit.toLocaleString()}` : `-$${Math.abs(profit).toLocaleString()}`}{' '}
                     ({profitPct >= 0 ? '+' : ''}{profitPct.toFixed(2)}%)
                   </span>

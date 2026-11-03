@@ -72,8 +72,20 @@ function BanditAppContent() {
     setActiveTab('journal');
   };
 
+  const handleSelectTradeById = async (id: string) => {
+    try {
+      const trade = await api.getTrade(id);
+      if (trade) {
+        setSelectedTradeForDetail(trade);
+        setActiveTab('journal');
+      }
+    } catch (e) {
+      console.error('Failed to locate trade:', e);
+    }
+  };
+
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-white dark:bg-[#0B0D10] text-slate-900 dark:text-[#F4F6F8]">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#F8FAFC] dark:bg-[#090D14] text-slate-900 dark:text-[#F8FAFC]">
       {/* 10-View Collapsible Sidebar */}
       <Sidebar
         activeTab={activeTab}
@@ -84,7 +96,7 @@ function BanditAppContent() {
 
       {/* Main View Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Top Bar Navigation conforming to the Top Bar Contract */}
+        {/* Top Bar Navigation */}
         <Navbar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -93,7 +105,7 @@ function BanditAppContent() {
         />
 
         {/* Content Viewport */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-slate-50/50 dark:bg-[#0B0D10]">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-[#F1F5F9]/60 dark:bg-[#090D14]">
           <div className="max-w-7xl mx-auto">
             {activeTab === 'dashboard' && (
               <MainDashboard
@@ -126,7 +138,7 @@ function BanditAppContent() {
             {activeTab === 'market' && <MarketIntelligenceView />}
 
             {activeTab === 'ai' && (
-              <BanditAiView onSelectTradeId={id => console.log('Selected trade:', id)} />
+              <BanditAiView onSelectTradeId={handleSelectTradeById} />
             )}
 
             {activeTab === 'reports' && <ReportsView />}

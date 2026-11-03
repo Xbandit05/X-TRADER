@@ -131,8 +131,8 @@ export const TradeGradingView: React.FC<TradeGradingViewProps> = ({ onSelectTrad
       {/* 2-Column Split: Trades Selection List (Left) & Full Explainable Breakdown (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left: Trades List (4 cols) */}
-        <div className="lg:col-span-4 p-4 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] space-y-3">
-          <div className="text-xs font-bold text-slate-500 dark:text-[#AAB3BF] uppercase tracking-wider">
+        <div className="lg:col-span-4 p-4 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-3">
+          <div className="text-xs font-bold text-slate-500 dark:text-[#94A3B8] uppercase tracking-wider">
             Select Trade to Inspect
           </div>
 
@@ -146,18 +146,18 @@ export const TradeGradingView: React.FC<TradeGradingViewProps> = ({ onSelectTrad
                   onClick={() => setSelectedTrade(t)}
                   className={`p-3 rounded-xl border cursor-pointer transition-all ${
                     isSelected
-                      ? 'border-[#00C781]/60 bg-slate-50 dark:bg-[#222B36] shadow-xs'
-                      : 'border-slate-100 dark:border-[#252D38] hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-[#151A20]'
+                      ? 'border-[#00B2FE] bg-slate-50 dark:bg-[#18202F] shadow-xs ring-1 ring-[#00B2FE]'
+                      : 'border-slate-100 dark:border-[#1C2638] hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-[#0F141F]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-xs text-slate-900 dark:text-[#F4F6F8]">
+                      <span className="font-mono font-bold text-xs text-slate-900 dark:text-[#F8FAFC]">
                         {t.instrument}
                       </span>
                       <span
-                        className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded ${
-                          t.direction === 'BUY' ? 'bg-[#00C781]/15 text-[#00C781]' : 'bg-red-500/15 text-red-500'
+                        className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded ${
+                          t.direction === 'BUY' ? 'bg-[#00B2FE]/15 text-[#00B2FE]' : 'bg-rose-500/15 text-rose-500'
                         }`}
                       >
                         {t.direction}
@@ -177,9 +177,9 @@ export const TradeGradingView: React.FC<TradeGradingViewProps> = ({ onSelectTrad
                     {t.setupType}
                   </div>
 
-                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-[#252D38] text-[11px] font-mono">
+                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-[#1C2638] text-[11px] font-mono">
                     <span className="text-slate-400">{t.entryDate.split('T')[0]}</span>
-                    <span className={isWin ? 'text-[#00C781] font-bold' : 'text-red-400 font-bold'}>
+                    <span className={isWin ? 'text-[#10B981] font-bold' : 'text-rose-400 font-bold'}>
                       {t.netProfitLoss >= 0 ? `+$${t.netProfitLoss.toFixed(2)}` : `-$${Math.abs(t.netProfitLoss).toFixed(2)}`}{' '}
                       ({t.rMultiple >= 0 ? `+${t.rMultiple}R` : `${t.rMultiple}R`})
                     </span>
@@ -194,22 +194,22 @@ export const TradeGradingView: React.FC<TradeGradingViewProps> = ({ onSelectTrad
         {selectedTrade && grade ? (
           <div className="lg:col-span-8 space-y-5">
             {/* Main Scorecard Header */}
-            <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] space-y-5">
+            <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold uppercase text-[#00C781] tracking-wider">
+                    <span className="text-xs font-mono font-bold uppercase text-[#00B2FE] tracking-wider">
                       GRADE AUDIT REPORT
                     </span>
                     <span className="text-slate-400">·</span>
-                    <span className="text-xs text-slate-500 dark:text-[#AAB3BF] font-mono">
+                    <span className="text-xs text-slate-500 dark:text-[#94A3B8] font-mono">
                       Trade #{selectedTrade.id}
                     </span>
                   </div>
-                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-[#F4F6F8] tracking-tight mt-1">
+                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-[#F8FAFC] tracking-tight mt-1">
                     {selectedTrade.instrument} {selectedTrade.direction} — {selectedTrade.setupType}
                   </h3>
-                  <div className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
+                  <div className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
                     Account: {selectedTrade.accountId} · Session: {selectedTrade.tradingSession} · Evaluated: {grade.evaluatedAt.split('T')[0]}
                   </div>
                 </div>

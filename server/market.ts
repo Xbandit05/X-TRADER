@@ -927,7 +927,7 @@ class MarketDataService {
           timestamp: new Date(inst?.lastObservationTimestamp || Date.now()).toISOString(),
           timeframe: '1H / 15M View',
           verifiedPrice: p,
-          higherTimeframeBias: 'Bullish Continuation',
+          higherTimeframeBias: 'Bullish',
           shortTermStructure: `Trading at ${p.toFixed(5)} (TradingView: FX:GBPUSD). Clean sweep of Asian lows with structural rejection.`,
           keyLevels: {
             resistance: [Number((p + 0.0035).toFixed(5)), Number((p + 0.0065).toFixed(5)), Number((p + 0.0100).toFixed(5))],
@@ -947,7 +947,7 @@ class MarketDataService {
           timestamp: new Date(inst?.lastObservationTimestamp || Date.now()).toISOString(),
           timeframe: '1H / 15M View',
           verifiedPrice: p,
-          higherTimeframeBias: 'Bullish Momentum',
+          higherTimeframeBias: 'Strongly Bullish',
           shortTermStructure: `Trading at ${p.toFixed(3)} (TradingView: FX:GBPJPY). Respecting 1H discount FVG after Asian liquidity sweep.`,
           keyLevels: {
             resistance: [Number((p + 0.60).toFixed(3)), Number((p + 1.20).toFixed(3)), Number((p + 1.85).toFixed(3))],

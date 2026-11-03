@@ -22,7 +22,12 @@ import {
   CheckCircle2,
   Wifi,
   WifiOff,
-  Server
+  Server,
+  ExternalLink,
+  Sliders,
+  PauseCircle,
+  PlayCircle,
+  Lock
 } from 'lucide-react';
 import {
   CanonicalInstrument,
@@ -185,94 +190,146 @@ export const MarketIntelligenceView: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
-      {/* 1. DATA PROVIDER HEALTH & OUTAGE CONTROLS BANNER */}
-      <div className={`p-4 rounded-2xl border transition-all ${
-        providerStatus?.status === 'OUTAGE'
+      {/* 1. TRADINGVIEW REAL-TIME MARKET FIDELITY & SESSION BANNER */}
+      <div className={`p-4 md:p-5 rounded-2xl border transition-all ${
+        !currentQuote?.isMarketOpen && !providerStatus?.simulationModeActive
+          ? 'border-amber-500/40 bg-amber-950/15 text-slate-800 dark:text-[#F4F6F8]'
+          : providerStatus?.status === 'OUTAGE'
           ? 'border-red-500/50 bg-red-950/20 text-red-200'
           : providerStatus?.status === 'DEGRADED'
           ? 'border-amber-500/50 bg-amber-950/20 text-amber-200'
           : 'border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] text-slate-800 dark:text-[#F4F6F8]'
       }`}>
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
-              providerStatus?.status === 'OUTAGE'
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${
+              !currentQuote?.isMarketOpen && !providerStatus?.simulationModeActive
+                ? 'bg-amber-500/15 border-amber-500/40 text-amber-400'
+                : providerStatus?.status === 'OUTAGE'
                 ? 'bg-red-500/20 border-red-500 text-red-400'
-                : providerStatus?.status === 'DEGRADED'
-                ? 'bg-amber-500/20 border-amber-500 text-amber-400'
                 : 'bg-[#00C781]/15 border-[#00C781]/40 text-[#00C781]'
             }`}>
-              {providerStatus?.status === 'OUTAGE' ? <WifiOff size={18} /> : <Wifi size={18} />}
+              {!currentQuote?.isMarketOpen && !providerStatus?.simulationModeActive ? (
+                <Lock size={18} />
+              ) : providerStatus?.status === 'OUTAGE' ? (
+                <WifiOff size={18} />
+              ) : (
+                <Wifi size={18} />
+              )}
             </div>
 
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-xs uppercase tracking-wider">
-                  MARKET FEED STATUS:
+            <div className="space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-[#AAB3BF]">
+                  SESSION STATUS:
                 </span>
-                <span className={`font-mono text-[11px] font-extrabold px-2 py-0.5 rounded-full ${
-                  providerStatus?.status === 'OUTAGE'
+                <span className={`font-mono text-[11px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 ${
+                  !currentQuote?.isMarketOpen && !providerStatus?.simulationModeActive
+                    ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                    : providerStatus?.simulationModeActive
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
+                    : providerStatus?.status === 'OUTAGE'
                     ? 'bg-red-500/20 text-red-400'
-                    : providerStatus?.status === 'DEGRADED'
-                    ? 'bg-amber-500/20 text-amber-400'
                     : 'bg-[#00C781]/20 text-[#00C781]'
                 }`}>
-                  {providerStatus?.status === 'OUTAGE'
-                    ? 'OUTAGE PROTECTION ENGAGED'
-                    : providerStatus?.status === 'DEGRADED'
-                    ? 'STANDBY FAILOVER ACTIVE'
-                    : 'REAL-TIME STREAM ONLINE'}
+                  {!currentQuote?.isMarketOpen && !providerStatus?.simulationModeActive ? (
+                    <>
+                      <PauseCircle size={12} />
+                      <span>MARKET CLOSED — TICKS FROZEN AT OFFICIAL CLOSE</span>
+                    </>
+                  ) : providerStatus?.simulationModeActive ? (
+                    <>
+                      <PlayCircle size={12} />
+                      <span>PRACTICE SIMULATION SANDBOX ACTIVE</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="w-2 h-2 rounded-full bg-[#00C781] animate-pulse" />
+                      <span>MARKET OPEN — LIVE REAL-TIME STREAM</span>
+                    </>
+                  )}
+                </span>
+
+                <span className="text-[11px] font-mono text-slate-400">
+                  TradingView Benchmark: <strong>{currentQuote?.tradingViewSymbol}</strong>
                 </span>
               </div>
 
-              <div className="text-xs text-slate-500 dark:text-[#AAB3BF] flex flex-wrap items-center gap-2 font-mono">
-                <span>Source: {currentQuote?.provider || providerStatus?.primaryProvider}</span>
+              <div className="text-xs text-slate-600 dark:text-[#94A3B8] leading-relaxed">
+                {!currentQuote?.isMarketOpen && !providerStatus?.simulationModeActive ? (
+                  <span>
+                    Global exchanges are currently closed for the weekend. In institutional trading, prices <strong>do not move</strong> when order books are closed. Cloud X strictly freezes quotes at Friday settlement to mirror your exact TradingView chart.
+                  </span>
+                ) : (
+                  <span>
+                    Live interbank order book streaming active with low-latency execution feeds.
+                  </span>
+                )}
+              </div>
+
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 flex flex-wrap items-center gap-2 pt-0.5 font-mono">
+                <span>Source: {currentQuote?.provider}</span>
                 <span>·</span>
                 <span>Latency: {providerStatus?.averageLatencyMs ?? 35}ms</span>
                 <span>·</span>
-                <span>Last Sync: {providerStatus ? new Date(providerStatus.lastSyncTimestamp).toLocaleTimeString() : 'N/A'}</span>
+                <span>Next Session: {currentQuote?.nextSessionNotice || 'Sunday 5:00 PM EST (22:00 UTC)'}</span>
               </div>
             </div>
           </div>
 
-          {/* Action buttons: Force Refresh & Outage Simulation Toggle */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Action Toolbar */}
+          <div className="flex flex-wrap items-center gap-2 shrink-0 pt-2 lg:pt-0">
+            {/* Calibrate to Broker / TradingView Button */}
+            <button
+              onClick={() => {
+                setTargetCalibratePrice(currentQuote?.lastPrice ? currentQuote.lastPrice.toString() : '');
+                setShowCalibrateModal(true);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] text-xs font-semibold text-slate-800 dark:text-[#F8FAFC] hover:border-[#00B2FE]/60 transition-colors shadow-xs"
+              title="Calibrate price to match your exact broker chart"
+            >
+              <Sliders size={13} className="text-[#00B2FE]" />
+              <span>Calibrate Broker Price</span>
+            </button>
+
+            {/* TradingView Chart Direct Link */}
+            <a
+              href={`https://www.tradingview.com/chart/?symbol=${encodeURIComponent(currentQuote?.tradingViewSymbol || 'NASDAQ:NDX')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] text-xs font-semibold text-slate-700 dark:text-[#F8FAFC] hover:text-[#00B2FE] transition-colors shadow-xs"
+            >
+              <span>TradingView Chart</span>
+              <ExternalLink size={12} />
+            </a>
+
+            {/* Weekend Sandbox Simulator Toggle */}
+            <button
+              onClick={handleToggleSimulationMode}
+              disabled={togglingSimulation}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                providerStatus?.simulationModeActive
+                  ? 'bg-purple-600 hover:bg-purple-700 text-white shadow-xs'
+                  : 'bg-slate-100 dark:bg-[#151A20] hover:bg-slate-200 dark:hover:bg-[#202731] border border-slate-200 dark:border-[#2E3845] text-slate-700 dark:text-slate-300'
+              }`}
+              title="Toggle simulated weekend order book ticks for off-hours practice"
+            >
+              {providerStatus?.simulationModeActive ? <PauseCircle size={13} /> : <PlayCircle size={13} />}
+              <span>{providerStatus?.simulationModeActive ? 'Disable Practice Ticks' : 'Practice Ticks'}</span>
+            </button>
+
+            {/* Sync Feed Button */}
             <button
               onClick={handleForceRefresh}
               disabled={refreshing}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#151A20] text-xs font-semibold text-slate-700 dark:text-[#F4F6F8] hover:border-[#00C781]/50 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#2E3845] bg-white dark:bg-[#151A20] text-xs font-semibold text-slate-700 dark:text-[#F4F6F8] hover:border-[#00C781]/50 transition-colors shadow-xs"
               title="Force immediate live quote refresh"
             >
               <RefreshCw size={13} className={refreshing ? 'animate-spin text-[#00C781]' : ''} />
               <span>{refreshing ? 'Syncing...' : 'Sync Feed'}</span>
             </button>
-
-            <button
-              onClick={handleToggleOutage}
-              disabled={togglingOutage}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                providerStatus?.isSimulatingOutage
-                  ? 'bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10]'
-                  : 'bg-red-500/15 hover:bg-red-500/25 border border-red-500/40 text-red-400'
-              }`}
-            >
-              <AlertTriangle size={13} />
-              <span>
-                {providerStatus?.isSimulatingOutage ? 'Restore Live Provider' : 'Simulate Provider Outage'}
-              </span>
-            </button>
           </div>
         </div>
-
-        {/* Outage / Failover Notice Banner */}
-        {providerStatus?.status !== 'HEALTHY' && (
-          <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-800 text-xs flex items-start gap-2 text-amber-400 dark:text-amber-300">
-            <Info size={14} className="shrink-0 mt-0.5" />
-            <p className="leading-relaxed">
-              <strong>Graceful Outage Protection:</strong> {providerStatus?.message} Real-time order books are protected using high-reliability reference rates. Recency and timestamps are accurately flagged below.
-            </p>
-          </div>
-        )}
       </div>
 
       {/* 2. FIVE CANONICAL INSTRUMENTS LIVE TICKER CARDS (US100, US30, GBPUSD, GBPJPY, XAUUSD) */}
@@ -282,6 +339,7 @@ export const MarketIntelligenceView: React.FC = () => {
           const q = quotes.find(item => item.symbol === sym);
           const isSelected = selectedSymbol === sym;
           const pos = (q?.change24hPercent ?? 0) >= 0;
+          const isClosed = !q?.isMarketOpen && !providerStatus?.simulationModeActive;
 
           return (
             <div
@@ -304,17 +362,17 @@ export const MarketIntelligenceView: React.FC = () => {
                       {sym}
                     </span>
                     <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded ${
-                      q?.feedStatus === 'OUTAGE_PROTECTION'
+                      isClosed
+                        ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                        : q?.feedStatus === 'OUTAGE_PROTECTION'
                         ? 'bg-red-500/20 text-red-400'
-                        : q?.isStale
-                        ? 'bg-amber-500/20 text-amber-400'
                         : 'bg-[#00C781]/15 text-[#00C781]'
                     }`}>
-                      {q?.feedStatus === 'OUTAGE_PROTECTION' ? 'FALLBACK' : q?.isStale ? 'STALE' : 'LIVE'}
+                      {isClosed ? 'FROZEN' : 'LIVE'}
                     </span>
                   </div>
                   <div className="text-[10px] text-slate-400 truncate max-w-[130px]">
-                    {CANONICAL_INSTRUMENTS[sym].name}
+                    {q?.tradingViewSymbol || CANONICAL_INSTRUMENTS[sym].name}
                   </div>
                 </div>
 
@@ -348,10 +406,12 @@ export const MarketIntelligenceView: React.FC = () => {
               <div className="pt-1.5 border-t border-slate-100 dark:border-[#252D38] text-[10px] text-slate-400 font-mono space-y-0.5">
                 <div className="flex justify-between">
                   <span className="truncate mr-1">Spread: {q?.spread ?? 0}</span>
-                  <span className="text-[#00C781] font-semibold">{formatRecency(q?.recencySeconds ?? 0)}</span>
+                  <span className={isClosed ? 'text-amber-400 font-semibold' : 'text-[#00C781] font-semibold'}>
+                    {isClosed ? 'Closed (Locked)' : formatRecency(q?.recencySeconds ?? 0)}
+                  </span>
                 </div>
                 <div className="truncate text-slate-500 dark:text-slate-500">
-                  {q?.provider}
+                  {q?.tradingViewSymbol} · {q?.provider}
                 </div>
               </div>
             </div>
@@ -705,6 +765,90 @@ export const MarketIntelligenceView: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* 5. CALIBRATION MODAL (MATCH TO TRADINGVIEW / BROKER FEED) */}
+      {showCalibrateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B] shadow-2xl p-6 space-y-5 text-slate-900 dark:text-[#F4F6F8]">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-[#252D38]">
+              <div className="flex items-center gap-2">
+                <Sliders size={18} className="text-[#00C781]" />
+                <h3 className="font-bold text-base">Calibrate to TradingView / Broker</h3>
+              </div>
+              <button
+                onClick={() => setShowCalibrateModal(false)}
+                className="text-slate-400 hover:text-white text-xs px-2 py-1 rounded"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleCalibrate} className="space-y-4 text-xs">
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#151A20] space-y-1.5 font-mono">
+                <div className="flex justify-between text-slate-500 dark:text-slate-400 text-[11px]">
+                  <span>Instrument:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{selectedSymbol}</span>
+                </div>
+                <div className="flex justify-between text-slate-500 dark:text-slate-400 text-[11px]">
+                  <span>TradingView Counterpart:</span>
+                  <span className="font-bold text-[#00C781]">{currentQuote?.tradingViewSymbol}</span>
+                </div>
+                <div className="flex justify-between text-slate-500 dark:text-slate-400 text-[11px]">
+                  <span>Current App Reference:</span>
+                  <span className="font-bold">{currentQuote?.lastPrice.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1">
+                  Enter Your Broker / TradingView Quote
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    step="any"
+                    value={targetCalibratePrice}
+                    onChange={e => setTargetCalibratePrice(e.target.value)}
+                    placeholder={currentQuote?.lastPrice.toString()}
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#12161C] font-mono text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#00C781]"
+                    required
+                  />
+                  <span className="absolute right-3 top-3 text-[11px] font-mono text-slate-400">
+                    pts
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
+                  Brokers (FTMO, Apex, Eightcap, OANDA) often quote CFDs with a slight basis differential compared to cash indices or futures. Calibrating ensures your trade entries and P&L calculations match your chart to the penny.
+                </p>
+              </div>
+
+              {calibrationSuccess && (
+                <div className="p-2.5 rounded-lg bg-[#00C781]/15 border border-[#00C781]/40 text-[#00C781] text-xs font-semibold flex items-center gap-1.5">
+                  <CheckCircle2 size={15} />
+                  <span>Calibrated successfully! Real-time price updated.</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2.5 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowCalibrateModal(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 dark:border-[#2E3845] bg-slate-100 dark:bg-[#151A20] text-slate-700 dark:text-slate-300 text-xs font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={calibrating}
+                  className="px-5 py-2 rounded-xl bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] text-xs font-bold transition-all shadow-xs"
+                >
+                  {calibrating ? 'Saving...' : 'Apply Calibration'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -134,27 +134,27 @@ export const CsvImportExportModal: React.FC<CsvImportExportModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs overflow-y-auto">
-      <div className="w-full max-w-3xl rounded-2xl border border-slate-200 dark:border-[#2E3845] bg-white dark:bg-[#151A20] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-150">
+      <div className="w-full max-w-3xl rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-150">
         {/* Header */}
-        <div className="h-14 flex items-center justify-between px-6 border-b border-slate-200 dark:border-[#252D38] bg-slate-50/50 dark:bg-[#1B222B]">
+        <div className="h-14 flex items-center justify-between px-6 border-b border-slate-200 dark:border-[#1C2638] bg-slate-50/50 dark:bg-[#0F141F]">
           <div className="flex items-center gap-2.5">
-            <FileSpreadsheet size={18} className="text-[#00C781]" />
-            <h3 className="text-sm font-bold text-slate-900 dark:text-[#F4F6F8]">
-              Broker CSV Import Engine (Tradovate · MT4/MT5 · Ninja · cTrader)
+            <FileSpreadsheet size={18} className="text-[#00B2FE]" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC]">
+              Broker CSV Import Engine (Tradovate · MT4/MT5 · NinjaTrader · cTrader)
             </h3>
           </div>
           <button onClick={onClose} className="p-1 rounded text-slate-400 hover:text-white">✕</button>
         </div>
 
         {/* Step Progress Tracker */}
-        <div className="flex items-center justify-between px-8 py-3 border-b border-slate-100 dark:border-[#252D38] bg-slate-50 dark:bg-[#12161C] text-xs font-mono">
-          <span className={step >= 1 ? 'text-[#00C781] font-bold' : 'text-slate-400'}>1. Upload / Paste</span>
+        <div className="flex items-center justify-between px-8 py-3 border-b border-slate-100 dark:border-[#1C2638] bg-slate-50 dark:bg-[#0B0F17] text-xs font-mono">
+          <span className={step >= 1 ? 'text-[#00B2FE] font-bold' : 'text-slate-400'}>1. Upload / Paste</span>
           <span>→</span>
-          <span className={step >= 2 ? 'text-[#00C781] font-bold' : 'text-slate-400'}>2. Map Columns</span>
+          <span className={step >= 2 ? 'text-[#00B2FE] font-bold' : 'text-slate-400'}>2. Map Columns</span>
           <span>→</span>
-          <span className={step >= 3 ? 'text-[#00C781] font-bold' : 'text-slate-400'}>3. Preview &amp; Validate</span>
+          <span className={step >= 3 ? 'text-[#00B2FE] font-bold' : 'text-slate-400'}>3. Preview &amp; Validate</span>
           <span>→</span>
-          <span className={step >= 4 ? 'text-[#00C781] font-bold' : 'text-slate-400'}>4. Complete</span>
+          <span className={step >= 4 ? 'text-[#00B2FE] font-bold' : 'text-slate-400'}>4. Complete</span>
         </div>
 
         {/* Body Content by Step */}
@@ -163,13 +163,13 @@ export const CsvImportExportModal: React.FC<CsvImportExportModalProps> = ({
           {step === 1 && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <label className="block font-bold text-slate-700 dark:text-[#F4F6F8] uppercase tracking-wider text-[11px]">
+                <label className="block font-bold text-slate-700 dark:text-[#F8FAFC] uppercase tracking-wider text-[11px]">
                   Target Trading Account
                 </label>
                 <button
                   type="button"
                   onClick={handleLoadSampleCsv}
-                  className="text-xs text-[#00C781] font-semibold hover:underline"
+                  className="text-xs text-[#00B2FE] font-semibold hover:underline"
                 >
                   Load Sample Broker CSV
                 </button>

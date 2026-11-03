@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --bg-primary: #FFFFFF;
-    --bg-secondary: #F5F7FA;
+    --bg-primary: #F8FAFC;
+    --bg-secondary: #F1F5F9;
     --bg-card: #FFFFFF;
-    --bg-hover: #EEF2F6;
+    --bg-hover: #E2E8F0;
     --border-subtle: #E2E8F0;
     --border-card: #CBD5E1;
-    --text-primary: #182230;
-    --text-secondary: #64748B;
-    --text-muted: #94A3B8;
-    --accent-primary: #00C781;
-    --accent-emerald: #00C781;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --accent-primary: #00B2FE;
+    --accent-emerald: #10B981;
     --accent-loss: #EF4444;
   }
 
   .dark {
-    --bg-primary: #0B0D10;
-    --bg-secondary: #151A20;
-    --bg-card: #1B222B;
-    --bg-hover: #222B36;
-    --border-subtle: #252D38;
-    --border-card: #2E3845;
-    --text-primary: #F4F6F8;
-    --text-secondary: #AAB3BF;
-    --text-muted: #6C7887;
-    --accent-primary: #00C781;
-    --accent-emerald: #00C781;
-    --accent-loss: #F87171;
+    --bg-primary: #090D14;
+    --bg-secondary: #0F141F;
+    --bg-card: #131926;
+    --bg-hover: #1A2332;
+    --border-subtle: #1C2638;
+    --border-card: #222E42;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --accent-primary: #00B2FE;
+    --accent-emerald: #10B981;
+    --accent-loss: #EF4444;
   }
 
   body {

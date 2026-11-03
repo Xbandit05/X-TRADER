@@ -66,7 +66,7 @@ export const ReportsView: React.FC = () => {
     const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
     const link = document.createElement('a');
     link.setAttribute('href', encodeURI(csvContent));
-    link.setAttribute('download', `BANDITRADES_${reportType.toUpperCase()}_REPORT.csv`);
+    link.setAttribute('download', `CLOUDX_${reportType.toUpperCase()}_REPORT.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -75,12 +75,12 @@ export const ReportsView: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top Action Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#1B222B]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926]">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 dark:text-[#F4F6F8]">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-[#F8FAFC]">
             Executive Performance Statement &amp; Audit Reports
           </h2>
-          <p className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
             Institutional-grade PDF exportable documentation for prop accounts and tax audits
           </p>
         </div>
@@ -88,7 +88,7 @@ export const ReportsView: React.FC = () => {
         <div className="flex items-center gap-2.5">
           <button
             onClick={handleDownloadCsv}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#151A20] text-xs font-semibold text-slate-800 dark:text-[#F4F6F8] hover:border-[#00C781]/40 transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-xs font-semibold text-slate-800 dark:text-[#F8FAFC] hover:border-[#00B2FE]/40 transition-colors"
           >
             <Download size={15} />
             <span>Export CSV</span>
@@ -96,7 +96,7 @@ export const ReportsView: React.FC = () => {
 
           <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] text-xs font-bold transition-all shadow-xs"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#00B2FE] hover:bg-[#009BE0] text-[#090D14] text-xs font-bold transition-all shadow-xs"
           >
             <Printer size={15} />
             <span>Print / Save as PDF</span>
@@ -105,15 +105,15 @@ export const ReportsView: React.FC = () => {
       </div>
 
       {/* Report Type Selector */}
-      <div className="flex items-center gap-2 p-1.5 rounded-xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] overflow-x-auto">
+      <div className="flex items-center gap-2 p-1.5 rounded-xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] overflow-x-auto">
         {(['monthly', 'weekly', 'strategy', 'prop_challenge'] as const).map(type => (
           <button
             key={type}
             onClick={() => setReportType(type)}
             className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-colors whitespace-nowrap shrink-0 ${
               reportType === type
-                ? 'bg-slate-900 text-white dark:bg-[#1B222B] dark:text-[#00C781] shadow-xs'
-                : 'text-slate-600 dark:text-[#AAB3BF] hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/30 shadow-xs'
+                : 'text-slate-600 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             {type === 'monthly'
@@ -128,7 +128,7 @@ export const ReportsView: React.FC = () => {
       </div>
 
       {/* The Printable Report Canvas (with Watermark) */}
-      <div className="relative p-8 md:p-12 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] text-slate-900 dark:text-[#F4F6F8] shadow-xl overflow-hidden space-y-8 print:border-none print:shadow-none print:p-0">
+      <div className="relative p-8 md:p-12 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] text-slate-900 dark:text-[#F8FAFC] shadow-xl overflow-hidden space-y-8 print:border-none print:shadow-none print:p-0">
         {/* Subtle Report Watermark */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <Logo variant="watermark" size="xl" />

@@ -1,6 +1,6 @@
 /**
- * BANDITRADES — Master Sidebar Navigation
- * Collapsible professional 10-view trading terminal sidebar
+ * CLOUD X — Master Sidebar Navigation
+ * TradeZella-styled collapsible professional 10-view trading terminal sidebar
  */
 
 import React from 'react';
@@ -57,19 +57,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'strategies', label: 'Strategies & Rulebook', icon: Compass },
     { id: 'accounts', label: 'Professional Accounts', icon: Briefcase },
     { id: 'market', label: 'Live Market Intel', icon: Radio, badge: 'LIVE' },
-    { id: 'ai', label: 'Bandit AI', icon: Bot, badge: '3.8' },
+    { id: 'ai', label: 'Cloud AI', icon: Bot, badge: 'PRO' },
     { id: 'reports', label: 'Reports', icon: FileSpreadsheet },
     { id: 'settings', label: 'Settings', icon: Settings }
   ];
 
   return (
     <aside
-      className={`relative flex flex-col shrink-0 border-r border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#0B0D10] transition-all duration-300 z-30 select-none ${
+      className={`relative flex flex-col shrink-0 border-r border-slate-200 dark:border-[#1C2638] bg-white dark:bg-[#090D14] transition-all duration-300 z-30 select-none ${
         collapsed ? 'w-20' : 'w-64'
       }`}
     >
       {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-[#252D38]">
+      <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-[#1C2638]">
         {collapsed ? (
           <div className="mx-auto cursor-pointer" onClick={() => setActiveTab('dashboard')}>
             <Logo variant="icon" size="md" />
@@ -82,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1B222B] transition-colors"
+          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#131926] transition-colors"
           title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
@@ -100,14 +100,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => setActiveTab(item.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 ${
                 isActive
-                  ? 'bg-slate-100 text-slate-900 dark:bg-[#1B222B] dark:text-[#F4F6F8] shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-[#AAB3BF] dark:hover:text-[#F4F6F8] dark:hover:bg-[#151A20]'
+                  ? 'bg-[#00B2FE]/10 text-[#00B2FE] dark:bg-[#00B2FE]/15 dark:text-[#00B2FE] border border-[#00B2FE]/30 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-[#94A3B8] dark:hover:text-[#F8FAFC] dark:hover:bg-[#131926] border border-transparent'
               }`}
               title={collapsed ? item.label : undefined}
             >
               <div
                 className={`flex items-center justify-center shrink-0 ${
-                  isActive ? 'text-[#00C781]' : 'text-slate-400 dark:text-slate-500'
+                  isActive ? 'text-[#00B2FE]' : 'text-slate-400 dark:text-slate-500'
                 }`}
               >
                 <Icon size={18} />
@@ -117,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <div className="flex-1 flex items-center justify-between text-left truncate">
                   <span className="truncate">{item.label}</span>
                   {item.badge && (
-                    <span className="ml-2 text-[10px] font-mono font-bold tracking-wider px-1.5 py-0.5 rounded-md bg-[#00C781]/15 text-[#00C781]">
+                    <span className="ml-2 text-[10px] font-mono font-bold tracking-wider px-1.5 py-0.5 rounded-md bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/30">
                       {item.badge}
                     </span>
                   )}
@@ -130,13 +130,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Footer System Status / Tagline */}
       {!collapsed && (
-        <div className="p-4 border-t border-slate-200 dark:border-[#252D38] bg-slate-50/50 dark:bg-[#151A20]/40">
-          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-[#AAB3BF]">
-            <TrendingUp size={14} className="text-[#00C781]" />
-            <span className="font-mono text-[11px] font-semibold">5 Canonical Markets</span>
+        <div className="p-4 border-t border-slate-200 dark:border-[#1C2638] bg-slate-50/50 dark:bg-[#0F141F]/60">
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-[#94A3B8]">
+            <TrendingUp size={14} className="text-[#00B2FE]" />
+            <span className="font-mono text-[11px] font-semibold text-slate-700 dark:text-slate-300">5 Canonical Markets</span>
           </div>
-          <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
-            US100 · US30 · Cable · Guppy · Gold
+          <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 font-mono">
+            US100 · US30 · GBPUSD · GBPJPY · XAUUSD
           </div>
         </div>
       )}

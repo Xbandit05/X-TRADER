@@ -203,7 +203,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `BANDITRADES_Journal_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `CloudX_Journal_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -227,7 +227,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
   return (
     <div className="space-y-5 animate-in fade-in duration-200">
       {/* Top Controls & Filter Bar: TradeZella Style */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-4 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] shadow-xs">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-4 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] shadow-xs">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
           <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -236,7 +236,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search setup, thesis, strategy, instrument (e.g. US100, FVG)..."
-            className="w-full pl-10 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#1B222B] text-slate-900 dark:text-[#F4F6F8] placeholder-slate-400 focus:outline-none focus:border-[#00C781]"
+            className="w-full pl-10 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-slate-900 dark:text-[#F8FAFC] placeholder-slate-400 focus:outline-none focus:border-[#00B2FE]"
           />
         </div>
 
@@ -284,16 +284,16 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
 
           <button
             onClick={onOpenCsvModal}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#1B222B] text-xs font-semibold text-slate-700 dark:text-[#AAB3BF] hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-xs font-semibold text-slate-700 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-white transition-colors"
             title="Import trades from broker CSV statement"
           >
-            <FileSpreadsheet size={14} className="text-[#00C781]" />
+            <FileSpreadsheet size={14} className="text-[#00B2FE]" />
             <span>Import CSV</span>
           </button>
 
           <button
             onClick={handleExportCsv}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#1B222B] text-xs font-semibold text-slate-700 dark:text-[#AAB3BF] hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-xs font-semibold text-slate-700 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-white transition-colors"
             title="Export filtered records to CSV"
           >
             <Download size={14} />
@@ -302,7 +302,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
 
           <button
             onClick={() => onOpenTradeModal()}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] text-xs font-bold transition-all shadow-xs"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#00B2FE] hover:bg-[#009BE0] text-[#090D14] text-xs font-bold transition-all shadow-xs"
           >
             <Plus size={15} strokeWidth={2.5} />
             <span>Log Trade</span>
@@ -314,11 +314,11 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Table of Trades */}
         <div
-          className={`p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] space-y-4 shadow-xs ${
+          className={`p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-4 shadow-xs ${
             activeTrade ? 'lg:col-span-7' : 'lg:col-span-12'
           }`}
         >
-          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-[#AAB3BF]">
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-[#94A3B8]">
             <span className="font-mono">
               Showing {filteredTrades.length} of {trades.length} audited positions
             </span>
@@ -329,7 +329,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                   if (sortField === 'date') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
                   else setSortField('date');
                 }}
-                className={`font-semibold hover:text-slate-900 dark:hover:text-white ${sortField === 'date' ? 'text-[#00C781]' : ''}`}
+                className={`font-semibold hover:text-slate-900 dark:hover:text-white ${sortField === 'date' ? 'text-[#00B2FE]' : ''}`}
               >
                 Date {sortField === 'date' && (sortOrder === 'asc' ? '↑' : '↓')}
               </button>
@@ -339,7 +339,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                   if (sortField === 'r') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
                   else setSortField('r');
                 }}
-                className={`font-semibold hover:text-slate-900 dark:hover:text-white ${sortField === 'r' ? 'text-[#00C781]' : ''}`}
+                className={`font-semibold hover:text-slate-900 dark:hover:text-white ${sortField === 'r' ? 'text-[#00B2FE]' : ''}`}
               >
                 R {sortField === 'r' && (sortOrder === 'asc' ? '↑' : '↓')}
               </button>
@@ -349,7 +349,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                   if (sortField === 'pnl') setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
                   else setSortField('pnl');
                 }}
-                className={`font-semibold hover:text-slate-900 dark:hover:text-white ${sortField === 'pnl' ? 'text-[#00C781]' : ''}`}
+                className={`font-semibold hover:text-slate-900 dark:hover:text-white ${sortField === 'pnl' ? 'text-[#00B2FE]' : ''}`}
               >
                 P&amp;L {sortField === 'pnl' && (sortOrder === 'asc' ? '↑' : '↓')}
               </button>
@@ -397,8 +397,8 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                         onClick={() => setActiveTrade(trade)}
                         className={`cursor-pointer transition-colors ${
                           isSelected
-                            ? 'bg-[#00C781]/10 dark:bg-[#1B222B]'
-                            : 'hover:bg-slate-50 dark:hover:bg-[#1B222B]/50'
+                            ? 'bg-[#00B2FE]/10 dark:bg-[#18202F] border-l-2 border-[#00B2FE]'
+                            : 'hover:bg-slate-50 dark:hover:bg-[#18202F]/60'
                         }`}
                       >
                         {/* Status Pill (TradeZella Style) */}
@@ -406,9 +406,9 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                           <span
                             className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${
                               isWin
-                                ? 'bg-[#00C781]/20 text-[#00C781]'
+                                ? 'bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/25'
                                 : isLoss
-                                ? 'bg-rose-500/20 text-rose-500'
+                                ? 'bg-rose-500/15 text-rose-500 border border-rose-500/25'
                                 : 'bg-slate-200 dark:bg-slate-800 text-slate-400'
                             }`}
                           >
@@ -417,13 +417,13 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                         </td>
 
                         {/* Date */}
-                        <td className="py-3 px-2 font-mono text-slate-500 dark:text-[#AAB3BF] whitespace-nowrap text-[11px]">
+                        <td className="py-3 px-2 font-mono text-slate-500 dark:text-[#94A3B8] whitespace-nowrap text-[11px]">
                           {trade.entryDate.split('T')[0]}
                         </td>
 
                         {/* Market Instrument & Session */}
                         <td className="py-3 px-2">
-                          <div className="font-mono font-bold text-slate-900 dark:text-[#F4F6F8]">
+                          <div className="font-mono font-bold text-slate-900 dark:text-[#F8FAFC]">
                             {trade.instrument}
                           </div>
                           <div className="text-[10px] text-slate-400 font-mono">
@@ -436,8 +436,8 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                           <span
                             className={`text-[10px] font-mono font-extrabold px-1.5 py-0.5 rounded ${
                               trade.direction === 'BUY'
-                                ? 'bg-[#00C781]/15 text-[#00C781]'
-                                : 'bg-rose-500/15 text-rose-500'
+                                ? 'bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/25'
+                                : 'bg-rose-500/15 text-rose-500 border border-rose-500/25'
                             }`}
                           >
                             {trade.direction === 'BUY' ? 'LONG' : 'SHORT'}
@@ -454,7 +454,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                         {/* Net Realized P&L */}
                         <td
                           className={`py-3 px-2 text-right font-mono font-bold tabular-nums whitespace-nowrap text-xs ${
-                            isWin ? 'text-[#00C781]' : isLoss ? 'text-rose-500' : 'text-slate-400'
+                            isWin ? 'text-[#10B981]' : isLoss ? 'text-rose-500' : 'text-slate-400'
                           }`}
                         >
                           {trade.netProfitLoss >= 0
@@ -465,7 +465,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                         {/* R-Multiple */}
                         <td
                           className={`py-3 px-2 text-right font-mono font-bold tabular-nums whitespace-nowrap ${
-                            trade.rMultiple >= 0 ? 'text-[#00C781]' : 'text-rose-500'
+                            trade.rMultiple >= 0 ? 'text-[#10B981]' : 'text-rose-500'
                           }`}
                         >
                           {trade.rMultiple >= 0 ? `+${trade.rMultiple}R` : `${trade.rMultiple}R`}
@@ -476,9 +476,9 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                           <span
                             className={`font-mono font-bold px-1.5 py-0.5 rounded text-xs ${
                               trade.grade?.letterGrade === 'A+' || trade.grade?.letterGrade === 'A'
-                                ? 'bg-[#00C781]/20 text-[#00C781]'
+                                ? 'bg-[#10B981]/20 text-[#10B981]'
                                 : trade.grade?.letterGrade === 'B'
-                                ? 'bg-blue-500/20 text-blue-400'
+                                ? 'bg-sky-500/20 text-sky-400'
                                 : trade.grade?.letterGrade === 'C'
                                 ? 'bg-amber-500/20 text-amber-400'
                                 : 'bg-rose-500/20 text-rose-400'
@@ -530,26 +530,26 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
 
         {/* Dedicated Trade Review Panel (TradeZella Style Slide-in Drawer) */}
         {activeTrade && (
-          <div className="lg:col-span-5 p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] space-y-4 shadow-lg animate-in slide-in-from-right duration-200">
+          <div className="lg:col-span-5 p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-4 shadow-lg animate-in slide-in-from-right duration-200">
             {/* Header of Drawer */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-[#252D38]">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-[#222E42]">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono font-bold text-base text-slate-900 dark:text-[#F4F6F8]">
+                  <span className="font-mono font-bold text-base text-slate-900 dark:text-[#F8FAFC]">
                     {activeTrade.instrument}
                   </span>
                   <span
                     className={`text-xs font-mono font-black px-2 py-0.5 rounded ${
                       activeTrade.direction === 'BUY'
-                        ? 'bg-[#00C781]/15 text-[#00C781]'
-                        : 'bg-rose-500/15 text-rose-500'
+                        ? 'bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/25'
+                        : 'bg-rose-500/15 text-rose-500 border border-rose-500/25'
                     }`}
                   >
                     {activeTrade.direction === 'BUY' ? 'LONG' : 'SHORT'}
                   </span>
                   <span className="text-xs text-slate-400 font-mono">#{activeTrade.id}</span>
                 </div>
-                <div className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5 font-mono">
+                <div className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5 font-mono">
                   {activeTrade.tradingSession} · {activeTrade.entryDate.split('T')[0]}
                 </div>
               </div>
@@ -557,14 +557,14 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => onOpenTradeModal(activeTrade)}
-                  className="p-1.5 rounded-lg border border-slate-200 dark:border-[#2E3845] text-xs text-slate-600 dark:text-[#AAB3BF] hover:text-white"
+                  className="p-1.5 rounded-lg border border-slate-200 dark:border-[#222E42] text-xs text-slate-600 dark:text-[#94A3B8] hover:text-white"
                   title="Edit Trade"
                 >
                   <Edit3 size={14} />
                 </button>
                 <button
                   onClick={() => setActiveTrade(null)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-100 dark:hover:bg-[#252D38]"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-100 dark:hover:bg-[#18202F]"
                 >
                   <X size={16} />
                 </button>
@@ -572,12 +572,12 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
             </div>
 
             {/* Top Stat Strip */}
-            <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 dark:bg-[#1B222B] text-center font-mono">
+            <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 dark:bg-[#18202F] text-center font-mono">
               <div>
                 <span className="text-[10px] text-slate-400 uppercase block">Net P&amp;L</span>
                 <span
                   className={`text-sm font-bold tabular-nums ${
-                    activeTrade.netProfitLoss >= 0 ? 'text-[#00C781]' : 'text-rose-500'
+                    activeTrade.netProfitLoss >= 0 ? 'text-[#10B981]' : 'text-rose-500'
                   }`}
                 >
                   {activeTrade.netProfitLoss >= 0
@@ -589,7 +589,7 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                 <span className="text-[10px] text-slate-400 uppercase block">R Realized</span>
                 <span
                   className={`text-sm font-bold tabular-nums ${
-                    activeTrade.rMultiple >= 0 ? 'text-[#00C781]' : 'text-rose-500'
+                    activeTrade.rMultiple >= 0 ? 'text-[#10B981]' : 'text-rose-500'
                   }`}
                 >
                   {activeTrade.rMultiple >= 0 ? `+${activeTrade.rMultiple}R` : `${activeTrade.rMultiple}R`}
@@ -597,14 +597,14 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
               </div>
               <div>
                 <span className="text-[10px] text-slate-400 uppercase block">Trade Grade</span>
-                <span className="text-sm font-bold text-[#00C781] tabular-nums">
+                <span className="text-sm font-bold text-[#10B981] tabular-nums">
                   {activeTrade.grade?.letterGrade || 'A'} ({activeTrade.grade?.overallScore ?? 92})
                 </span>
               </div>
             </div>
 
             {/* Navigation Tabs in Drawer */}
-            <div className="flex items-center gap-1 overflow-x-auto pb-1 border-b border-slate-100 dark:border-[#252D38] text-xs font-medium">
+            <div className="flex items-center gap-1 overflow-x-auto pb-1 border-b border-slate-100 dark:border-[#222E42] text-xs font-medium">
               {[
                 { id: 'overview', label: 'Overview' },
                 { id: 'checklist', label: '8-Step Checklist' },
@@ -617,8 +617,8 @@ export const TradeJournal: React.FC<TradeJournalProps> = ({
                   onClick={() => setDrawerTab(t.id as any)}
                   className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
                     drawerTab === t.id
-                      ? 'bg-slate-900 text-white dark:bg-[#252D38] dark:text-[#00C781] font-bold'
-                      : 'text-slate-600 dark:text-[#AAB3BF] hover:text-slate-900 dark:hover:text-white'
+                      ? 'bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/30 font-bold'
+                      : 'text-slate-600 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   {t.label}

@@ -132,19 +132,19 @@ export const ConsistencyView: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Header Banner */}
-      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-[#00C781] uppercase tracking-wider">
+            <span className="text-xs font-mono font-bold text-[#00B2FE] uppercase tracking-wider">
               DISCIPLINE &amp; EXECUTION CONSISTENCY
             </span>
             <span className="text-slate-300 dark:text-slate-700">·</span>
             <span className="text-xs font-mono text-slate-500">10 PERSONAL RULES ACTIVE</span>
           </div>
-          <h2 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-[#F4F6F8] tracking-tight mt-0.5">
+          <h2 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-[#F8FAFC] tracking-tight mt-0.5">
             Behavioral Guardrails &amp; Rulebook Adherence
           </h2>
-          <p className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
             Decoupling financial return from procedural adherence to forge long-term institutional survivability.
           </p>
         </div>
@@ -161,59 +161,59 @@ export const ConsistencyView: React.FC = () => {
       {/* Dual Scores Showcase: Profitability Score vs Discipline Score */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Score 1: Profitability Score */}
-        <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] relative overflow-hidden space-y-4 shadow-xs">
+        <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] relative overflow-hidden space-y-4 shadow-xs">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-slate-500 dark:text-[#AAB3BF] uppercase tracking-wider font-mono">
+              <div className="text-xs font-bold text-slate-500 dark:text-[#94A3B8] uppercase tracking-wider font-mono">
                 Financial Score
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-[#F4F6F8] mt-0.5">
+              <h3 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC] mt-0.5">
                 Profitability Rating
               </h3>
             </div>
-            <div className="text-3xl md:text-4xl font-extrabold font-mono text-[#00C781] tabular-nums">
+            <div className="text-3xl md:text-4xl font-extrabold font-mono text-[#10B981] tabular-nums">
               {metrics?.profitabilityScore ?? 88}
               <span className="text-base font-normal text-slate-400">/100</span>
             </div>
           </div>
 
-          <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-[#252D38] overflow-hidden">
+          <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-[#1C2638] overflow-hidden">
             <div
-              className="h-full bg-[#00C781] rounded-full transition-all duration-500"
+              className="h-full bg-[#10B981] rounded-full transition-all duration-500"
               style={{ width: `${metrics?.profitabilityScore ?? 88}%` }}
             />
           </div>
 
-          <p className="text-xs text-slate-600 dark:text-[#AAB3BF] leading-relaxed">
+          <p className="text-xs text-slate-600 dark:text-[#94A3B8] leading-relaxed">
             Reflects overall net profitability, win rate (68.4%), and average risk-to-reward realization.
           </p>
         </div>
 
         {/* Score 2: Discipline Score (The Primary Health Indicator) */}
-        <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] relative overflow-hidden space-y-4 shadow-xs">
+        <div className="p-6 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] relative overflow-hidden space-y-4 shadow-xs">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-[#00C781] uppercase tracking-wider font-mono">
+              <div className="text-xs font-bold text-[#00B2FE] uppercase tracking-wider font-mono">
                 Procedural Score (Primary)
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-[#F4F6F8] mt-0.5">
+              <h3 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC] mt-0.5">
                 Execution Discipline Score
               </h3>
             </div>
-            <div className="text-3xl md:text-4xl font-extrabold font-mono text-slate-900 dark:text-white tabular-nums">
+            <div className="text-3xl md:text-4xl font-extrabold font-mono text-[#00B2FE] tabular-nums">
               {metrics?.disciplineScore ?? 92}
               <span className="text-base font-normal text-slate-400">/100</span>
             </div>
           </div>
 
-          <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-[#252D38] overflow-hidden">
+          <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-[#1C2638] overflow-hidden">
             <div
-              className="h-full bg-slate-900 dark:bg-white rounded-full transition-all duration-500"
+              className="h-full bg-[#00B2FE] rounded-full transition-all duration-500"
               style={{ width: `${metrics?.disciplineScore ?? 92}%` }}
             />
           </div>
 
-          <p className="text-xs text-slate-600 dark:text-[#AAB3BF] leading-relaxed">
+          <p className="text-xs text-slate-600 dark:text-[#94A3B8] leading-relaxed">
             Measures compliance with your 10 personal rules, predetermined stop loss integrity, and zero overtrading.
           </p>
         </div>

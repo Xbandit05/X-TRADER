@@ -168,18 +168,18 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
-      {/* Bandit AI Daily Briefing Banner */}
+      {/* Cloud AI Daily Briefing Banner */}
       {dailyBriefing && (
-        <div className="relative overflow-hidden rounded-2xl border border-[#00C781]/30 bg-gradient-to-r from-slate-900 via-[#151A20] to-[#0B0D10] text-[#F4F6F8] p-5 shadow-lg">
+        <div className="relative overflow-hidden rounded-2xl border border-[#00B2FE]/30 bg-gradient-to-r from-slate-900 via-[#131926] to-[#090D14] text-[#F8FAFC] p-5 shadow-lg">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-[#00C781]/15 border border-[#00C781]/40 flex items-center justify-center shrink-0 text-[#00C781]">
+              <div className="w-10 h-10 rounded-xl bg-[#00B2FE]/15 border border-[#00B2FE]/40 flex items-center justify-center shrink-0 text-[#00B2FE]">
                 <Sparkles size={20} />
               </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold tracking-wider text-[#00C781] uppercase">
-                    BANDIT AI INTELLIGENCE
+                  <span className="text-xs font-mono font-bold tracking-wider text-[#00B2FE] uppercase">
+                    CLOUD AI EXECUTIVE BRIEFING
                   </span>
                   <span className="text-[11px] text-slate-400">·</span>
                   <span className="text-xs text-slate-400 font-mono">{dailyBriefing.date}</span>
@@ -188,7 +188,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                   {dailyBriefing.performanceSummary}
                 </p>
                 <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 pt-0.5 font-mono">
-                  <span className="inline-flex items-center gap-1 text-[#00C781]">
+                  <span className="inline-flex items-center gap-1 text-[#10B981]">
                     <CheckCircle2 size={13} /> {dailyBriefing.disciplineStatus}
                   </span>
                   <span>·</span>
@@ -200,14 +200,14 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             <div className="flex items-center gap-2.5 shrink-0">
               <button
                 onClick={() => onNavigateTab('ai')}
-                className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-semibold text-white transition-colors flex items-center gap-1.5"
+                className="px-3.5 py-1.5 rounded-lg bg-[#00B2FE]/15 hover:bg-[#00B2FE]/25 border border-[#00B2FE]/30 text-xs font-semibold text-[#00B2FE] transition-colors flex items-center gap-1.5"
               >
-                <span>Ask Bandit AI</span>
+                <span>Ask Cloud AI</span>
                 <ArrowUpRight size={14} />
               </button>
               <button
                 onClick={() => onNavigateTab('market')}
-                className="px-3.5 py-1.5 rounded-lg bg-[#00C781] hover:bg-[#00b072] text-[#0B0D10] text-xs font-bold transition-colors"
+                className="px-3.5 py-1.5 rounded-lg bg-[#00B2FE] hover:bg-[#009BE0] text-[#090D14] text-xs font-bold transition-colors"
               >
                 Market Intel
               </button>
@@ -222,10 +222,10 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
           <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00C781] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00C781]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00B2FE] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00B2FE]"></span>
               </span>
-              <span className="text-xs font-mono font-bold tracking-wider text-slate-800 dark:text-[#F4F6F8] uppercase">
+              <span className="text-xs font-mono font-bold tracking-wider text-slate-800 dark:text-[#F8FAFC] uppercase">
                 CANONICAL MARKET FEEDS
               </span>
               <span className="text-[10px] text-slate-500 font-mono hidden sm:inline">
@@ -234,7 +234,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             </div>
             <button
               onClick={() => onNavigateTab('market')}
-              className="text-xs font-mono text-[#00C781] hover:underline flex items-center gap-1"
+              className="text-xs font-mono text-[#00B2FE] hover:underline flex items-center gap-1"
             >
               <span>Full Market Intel</span>
               <ArrowUpRight size={13} />
@@ -252,29 +252,29 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                 <div
                   key={q.symbol}
                   onClick={() => onNavigateTab('market')}
-                  className="p-3 rounded-xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] hover:border-[#00C781]/50 cursor-pointer transition-all duration-150 shadow-xs group"
+                  className="p-3 rounded-xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] hover:border-[#00B2FE]/50 cursor-pointer transition-all duration-150 shadow-xs group"
                 >
                   <div className="flex items-center justify-between gap-1 mb-1.5">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-mono text-xs font-black tracking-wide text-slate-900 dark:text-white group-hover:text-[#00C781] transition-colors">
+                      <span className="font-mono text-xs font-black tracking-wide text-slate-900 dark:text-white group-hover:text-[#00B2FE] transition-colors">
                         {q.symbol}
                       </span>
-                      <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-slate-100 dark:bg-[#1B222B] text-slate-600 dark:text-[#AAB3BF]">
+                      <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-slate-100 dark:bg-[#18202F] text-slate-600 dark:text-[#94A3B8]">
                         {isFx ? 'FX' : (isGold ? 'METAL' : 'INDEX')}
                       </span>
                     </div>
-                    <span className={`text-[10px] font-mono font-bold ${isUp ? 'text-[#00C781]' : 'text-rose-500'}`}>
+                    <span className={`text-[10px] font-mono font-bold ${isUp ? 'text-[#10B981]' : 'text-rose-500'}`}>
                       {isUp ? '+' : ''}{q.change24hPercent.toFixed(2)}%
                     </span>
                   </div>
 
                   {/* Last Price */}
-                  <div className="text-base font-mono font-bold tracking-tight text-slate-900 dark:text-[#F4F6F8] tabular-nums">
+                  <div className="text-base font-mono font-bold tracking-tight text-slate-900 dark:text-[#F8FAFC] tabular-nums">
                     {q.lastPrice.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}
                   </div>
 
                   {/* Bid / Ask Strip */}
-                  <div className="mt-2 pt-2 border-t border-slate-100 dark:border-[#202731] grid grid-cols-2 gap-1 text-[10px] font-mono tabular-nums">
+                  <div className="mt-2 pt-2 border-t border-slate-100 dark:border-[#1C2638] grid grid-cols-2 gap-1 text-[10px] font-mono tabular-nums">
                     <div>
                       <span className="text-slate-600 dark:text-slate-400 block text-[9px] uppercase tracking-wider">Bid</span>
                       <span className="text-slate-700 dark:text-slate-300 font-semibold">
@@ -290,14 +290,21 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                   </div>
 
                   {/* Recency & Source Attribution */}
-                  <div className="mt-2 flex items-center justify-between text-[9px] font-mono text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-[#202731]/60 pt-1.5">
-                    <span className="truncate max-w-[90px]" title={q.provider}>
-                      {q.sourceType === 'INTERBANK_LIVE_FEED' ? 'ECB FX' : (q.symbol === 'XAUUSD' ? 'LBMA' : 'CME/CFD')}
+                  <div className="mt-2 flex items-center justify-between text-[9px] font-mono border-t border-slate-100 dark:border-[#1C2638]/60 pt-1.5">
+                    <span className="truncate max-w-[95px] text-slate-500 dark:text-slate-400" title={`${q.tradingViewSymbol || q.symbol} (${q.provider})`}>
+                      {q.tradingViewSymbol || q.symbol}
                     </span>
-                    <span className="text-[#00C781] font-semibold flex items-center gap-1 shrink-0">
-                      <span className="h-1 w-1 rounded-full bg-[#00C781]"></span>
-                      {q.recencySeconds === 0 ? 'Live' : `${q.recencySeconds}s`}
-                    </span>
+                    {!q.isMarketOpen && !q.simulationModeActive ? (
+                      <span className="text-amber-400 font-semibold flex items-center gap-1 shrink-0">
+                        <span className="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+                        Closed
+                      </span>
+                    ) : (
+                      <span className="text-[#10B981] font-semibold flex items-center gap-1 shrink-0">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+                        {q.recencySeconds === 0 ? 'Live' : `${q.recencySeconds}s`}
+                      </span>
+                    )}
                   </div>
                 </div>
               );
@@ -307,7 +314,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
       )}
 
       {/* Filter Bar: TradeZella Style Segments */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-3 rounded-xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] shadow-xs">
+      <div className="flex flex-wrap items-center justify-between gap-4 p-3 rounded-xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] shadow-xs">
         <div className="flex items-center gap-1.5 overflow-x-auto">
           {(['today', '7d', '30d', '90d', 'ytd', 'all'] as const).map(range => (
             <button
@@ -315,8 +322,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               onClick={() => setDateRange(range)}
               className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors whitespace-nowrap shrink-0 ${
                 dateRange === range
-                  ? 'bg-slate-900 text-white dark:bg-[#1B222B] dark:text-[#00C781] font-bold shadow-xs'
-                  : 'text-slate-600 dark:text-[#AAB3BF] hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/30 font-bold shadow-xs'
+                  : 'text-slate-600 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               {range === 'today'
@@ -375,8 +382,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
               No Trading Records Found in Selected Account
             </h3>
-            <p className="text-xs text-slate-500 dark:text-[#AAB3BF] max-w-md mx-auto mt-1">
-              BanditTrades never generates invented statistics or fake performance metrics. Log your first execution or import a broker statement to activate full analytics.
+            <p className="text-xs text-slate-500 dark:text-[#94A3B8] max-w-md mx-auto mt-1">
+              Cloud X never generates invented statistics or fake performance metrics. Log your first execution or import a broker statement to activate full analytics.
             </p>
           </div>
           <div className="flex items-center justify-center gap-3 pt-2">
@@ -552,18 +559,18 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
           </div>
 
           {/* TRADEZELLA DAILY PERFORMANCE CALENDAR (Flagship Feature) */}
-          <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] space-y-4 shadow-xs">
+          <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] space-y-4 shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base font-bold text-slate-900 dark:text-[#F4F6F8]">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC]">
                     Daily Performance Calendar
                   </h3>
-                  <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-[#00C781]/15 text-[#00C781] font-bold">
+                  <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/30 font-bold">
                     TRADEZELLA VIEW
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
                   Click any active trading day to inspect executions and session details
                 </p>
               </div>
@@ -571,23 +578,23 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               {/* Month Navigation & Monthly Summary Ribbon */}
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2 font-mono text-xs">
-                  <span className={`font-bold ${monthPnL >= 0 ? 'text-[#00C781]' : 'text-rose-500'}`}>
+                  <span className={`font-bold ${monthPnL >= 0 ? 'text-[#10B981]' : 'text-rose-500'}`}>
                     {monthPnL >= 0 ? `+$${monthPnL.toFixed(0)}` : `-$${Math.abs(monthPnL).toFixed(0)}`}
                   </span>
                   <span className="text-slate-400">·</span>
-                  <span className="text-[#00C781] font-semibold">{greenDaysCount} Green</span>
+                  <span className="text-[#10B981] font-semibold">{greenDaysCount} Green</span>
                   <span className="text-slate-400">/</span>
                   <span className="text-rose-500 font-semibold">{redDaysCount} Red</span>
                 </div>
 
-                <div className="flex items-center gap-1 border border-slate-200 dark:border-[#2E3845] rounded-lg p-0.5">
+                <div className="flex items-center gap-1 border border-slate-200 dark:border-[#222E42] rounded-lg p-0.5">
                   <button
                     onClick={() => setCalendarMonth(new Date(year, month - 1, 1))}
                     className="p-1 rounded text-slate-500 hover:text-white"
                   >
                     <ChevronLeft size={14} />
                   </button>
-                  <span className="px-2 font-mono text-xs font-bold text-slate-800 dark:text-[#F4F6F8]">
+                  <span className="px-2 font-mono text-xs font-bold text-slate-800 dark:text-[#F8FAFC]">
                     {calendarMonth.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                   </span>
                   <button
@@ -620,7 +627,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                     return (
                       <div
                         key={`empty_${idx}`}
-                        className="h-20 rounded-xl bg-slate-50/30 dark:bg-[#151A20]/20 border border-transparent"
+                        className="h-20 rounded-xl bg-slate-50/30 dark:bg-[#131926]/30 border border-transparent"
                       />
                     );
                   }
@@ -638,12 +645,12 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                         hasTrades ? 'cursor-pointer select-none' : 'opacity-40'
                       } ${
                         isSelected
-                          ? 'ring-2 ring-[#00C781] border-[#00C781]'
+                          ? 'ring-2 ring-[#00B2FE] border-[#00B2FE]'
                           : isWinningDay
-                          ? 'border-[#00C781]/40 bg-[#00C781]/10 hover:border-[#00C781]'
+                          ? 'border-[#10B981]/40 bg-[#10B981]/15 hover:border-[#10B981] hover:bg-[#10B981]/25'
                           : isLosingDay
-                          ? 'border-rose-500/40 bg-rose-500/10 hover:border-rose-500'
-                          : 'border-slate-200 dark:border-[#252D38] bg-slate-50/50 dark:bg-[#1B222B]/40'
+                          ? 'border-rose-500/40 bg-rose-500/15 hover:border-rose-500 hover:bg-rose-500/25'
+                          : 'border-slate-200 dark:border-[#222E42] bg-slate-50/50 dark:bg-[#18202F]/40'
                       }`}
                     >
                       <div className="flex items-center justify-between text-[11px] font-mono">
@@ -654,7 +661,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                           <span
                             className={`text-[9px] font-black px-1 rounded ${
                               isWinningDay
-                                ? 'bg-[#00C781]/20 text-[#00C781]'
+                                ? 'bg-[#10B981]/20 text-[#10B981]'
                                 : isLosingDay
                                 ? 'bg-rose-500/20 text-rose-500'
                                 : 'bg-slate-200 dark:bg-slate-700 text-slate-400'
@@ -669,7 +676,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                         <div className="space-y-0.5">
                           <div
                             className={`text-xs md:text-sm font-mono font-black tabular-nums tracking-tight ${
-                              isWinningDay ? 'text-[#00C781]' : isLosingDay ? 'text-rose-500' : 'text-slate-400'
+                              isWinningDay ? 'text-[#10B981]' : isLosingDay ? 'text-rose-500' : 'text-slate-400'
                             }`}
                           >
                             {cell.data.pnl >= 0 ? `+$${cell.data.pnl.toFixed(0)}` : `-$${Math.abs(cell.data.pnl).toFixed(0)}`}
@@ -960,7 +967,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               </div>
               <button
                 onClick={() => onNavigateTab('journal')}
-                className="text-xs font-semibold text-[#00C781] hover:underline"
+                className="text-xs font-semibold text-[#00B2FE] hover:underline"
               >
                 View Full Journal →
               </button>
@@ -969,7 +976,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-100 dark:border-[#252D38] text-slate-400 uppercase font-mono text-[10px]">
+                  <tr className="border-b border-slate-100 dark:border-[#222E42] text-slate-400 uppercase font-mono text-[10px]">
                     <th className="py-2.5 px-3">Date</th>
                     <th className="py-2.5 px-3">Market</th>
                     <th className="py-2.5 px-3">Side</th>
@@ -980,26 +987,26 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                     <th className="py-2.5 px-3 text-center">Compliance</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-[#252D38]">
+                <tbody className="divide-y divide-slate-100 dark:divide-[#222E42]">
                   {filteredTrades.slice(0, 6).map(trade => {
                     const isWin = trade.netProfitLoss > 0;
                     return (
                       <tr
                         key={trade.id}
                         onClick={() => onSelectTrade(trade)}
-                        className="hover:bg-slate-50 dark:hover:bg-[#1B222B] cursor-pointer transition-colors"
+                        className="hover:bg-slate-50 dark:hover:bg-[#18202F] cursor-pointer transition-colors"
                       >
-                        <td className="py-3 px-3 font-mono text-slate-500 dark:text-[#AAB3BF]">
+                        <td className="py-3 px-3 font-mono text-slate-500 dark:text-[#94A3B8]">
                           {trade.entryDate.split('T')[0]}
                         </td>
-                        <td className="py-3 px-3 font-mono font-bold text-slate-800 dark:text-[#F4F6F8]">
+                        <td className="py-3 px-3 font-mono font-bold text-slate-800 dark:text-[#F8FAFC]">
                           {trade.instrument}
                         </td>
                         <td className="py-3 px-3">
                           <span
                             className={`text-[10px] font-mono font-black px-1.5 py-0.5 rounded ${
                               trade.direction === 'BUY'
-                                ? 'bg-[#00C781]/15 text-[#00C781]'
+                                ? 'bg-[#00B2FE]/15 text-[#00B2FE]'
                                 : 'bg-rose-500/15 text-rose-500'
                             }`}
                           >
@@ -1011,7 +1018,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                         </td>
                         <td
                           className={`py-3 px-3 text-right font-mono font-bold tabular-nums ${
-                            isWin ? 'text-[#00C781]' : 'text-rose-500'
+                            isWin ? 'text-[#10B981]' : 'text-rose-500'
                           }`}
                         >
                           {trade.netProfitLoss >= 0
@@ -1020,7 +1027,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                         </td>
                         <td
                           className={`py-3 px-3 text-right font-mono font-bold tabular-nums ${
-                            trade.rMultiple >= 0 ? 'text-[#00C781]' : 'text-rose-500'
+                            trade.rMultiple >= 0 ? 'text-[#10B981]' : 'text-rose-500'
                           }`}
                         >
                           {trade.rMultiple >= 0 ? `+${trade.rMultiple}R` : `${trade.rMultiple}R`}
@@ -1029,9 +1036,9 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                           <span
                             className={`font-mono font-bold px-2 py-0.5 rounded-md text-xs ${
                               trade.grade?.letterGrade === 'A+' || trade.grade?.letterGrade === 'A'
-                                ? 'bg-[#00C781]/20 text-[#00C781]'
+                                ? 'bg-[#10B981]/20 text-[#10B981]'
                                 : trade.grade?.letterGrade === 'B'
-                                ? 'bg-blue-500/20 text-blue-400'
+                                ? 'bg-sky-500/20 text-sky-400'
                                 : trade.grade?.letterGrade === 'C'
                                 ? 'bg-amber-500/20 text-amber-400'
                                 : 'bg-rose-500/20 text-rose-400'
@@ -1042,7 +1049,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                         </td>
                         <td className="py-3 px-3 text-center">
                           {trade.strategyCompliance ? (
-                            <span className="text-[#00C781] font-semibold text-xs font-mono">100%</span>
+                            <span className="text-[#10B981] font-semibold text-xs font-mono">100%</span>
                           ) : (
                             <span className="text-rose-500 font-semibold text-xs font-mono">Violated</span>
                           )}

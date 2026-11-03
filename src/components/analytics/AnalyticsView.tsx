@@ -161,39 +161,39 @@ export const AnalyticsView: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Header Summary */}
-      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+      <div className="p-5 rounded-2xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-[#00C781] uppercase tracking-wider">
+            <span className="text-xs font-mono font-bold text-[#00B2FE] uppercase tracking-wider">
               QUANTITATIVE ANALYTICS
             </span>
             <span className="text-slate-300 dark:text-slate-700">·</span>
             <span className="text-xs font-mono text-slate-500">MATHEMATICAL EDGE AUDIT</span>
           </div>
-          <h2 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-[#F4F6F8] tracking-tight mt-0.5">
+          <h2 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-[#F8FAFC] tracking-tight mt-0.5">
             Performance Breakdown &amp; Leak Analysis
           </h2>
-          <p className="text-xs text-slate-500 dark:text-[#AAB3BF] mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">
             Strict statistical verification isolating edge from behavioral noise across all {trades.length} positions.
           </p>
         </div>
 
         <div className="flex items-center gap-3 font-mono text-xs">
-          <div className="p-2.5 rounded-xl border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#1B222B] text-center">
+          <div className="p-2.5 rounded-xl border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-center">
             <div className="text-[10px] text-slate-400">WIN RATE</div>
-            <div className="font-bold text-slate-900 dark:text-[#F4F6F8]">
+            <div className="font-bold text-slate-900 dark:text-[#F8FAFC]">
               {analytics?.winRate ?? 0}%
             </div>
           </div>
-          <div className="p-2.5 rounded-xl border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#1B222B] text-center">
+          <div className="p-2.5 rounded-xl border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-center">
             <div className="text-[10px] text-slate-400">PROFIT FACTOR</div>
-            <div className="font-bold text-[#00C781]">
+            <div className="font-bold text-[#10B981]">
               {analytics?.profitFactor ?? 0}
             </div>
           </div>
-          <div className="p-2.5 rounded-xl border border-slate-200 dark:border-[#2E3845] bg-slate-50 dark:bg-[#1B222B] text-center">
+          <div className="p-2.5 rounded-xl border border-slate-200 dark:border-[#222E42] bg-slate-50 dark:bg-[#18202F] text-center">
             <div className="text-[10px] text-slate-400">AVG EXPECTANCY</div>
-            <div className="font-bold text-[#00C781]">
+            <div className="font-bold text-[#10B981]">
               +{analytics?.expectancyR ?? 0}R
             </div>
           </div>
@@ -201,7 +201,7 @@ export const AnalyticsView: React.FC = () => {
       </div>
 
       {/* 8 TradeZella-Style Analytical Sub-Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 rounded-xl border border-slate-200 dark:border-[#252D38] bg-white dark:bg-[#151A20] text-xs font-semibold shadow-xs">
+      <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 rounded-xl border border-slate-200 dark:border-[#222E42] bg-white dark:bg-[#131926] text-xs font-semibold shadow-xs">
         {[
           { id: 'overall', label: 'Overall Performance' },
           { id: 'instrument', label: 'By Instrument (5 Canonical)' },
@@ -217,8 +217,8 @@ export const AnalyticsView: React.FC = () => {
             onClick={() => setActiveSubTab(tab.id as AnalyticsSubTab)}
             className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
               activeSubTab === tab.id
-                ? 'bg-slate-900 text-white dark:bg-[#1B222B] dark:text-[#00C781] font-bold shadow-xs'
-                : 'text-slate-600 dark:text-[#AAB3BF] hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-[#00B2FE]/15 text-[#00B2FE] border border-[#00B2FE]/30 font-bold shadow-xs'
+                : 'text-slate-600 dark:text-[#94A3B8] hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             {tab.label}

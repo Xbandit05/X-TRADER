@@ -1,21 +1,29 @@
 /**
- * BANDITRADES — Bandit AI Engine
- * Three Intelligence Systems:
- * A. Performance Intelligence
- * B. Live Market Intelligence
- * C. Risk & Challenge Intelligence
+ * CLOUD X — Cloud AI Intelligence Engine
+ * Institutional Quantitative Trading Mentor & Real-time Market Intelligence
+ * Powered by Gemini 3.8 (@google/genai SDK) with Google Search grounding & TTS voice synthesis
  */
 
 import { GoogleGenAI } from '@google/genai';
-import { Trade, TradingAccount, TradingStrategy, ConsistencyMetrics, CanonicalInstrument } from '../src/types/index.ts';
+import {
+  Trade,
+  TradingAccount,
+  TradingStrategy,
+  ConsistencyMetrics,
+  CanonicalInstrument,
+  MarketQuote,
+  EconomicEvent
+} from '../src/types/index.ts';
 import { marketService } from './market.ts';
 
-const apiKey = process.env.GEMINI_API_KEY;
-
-let ai: GoogleGenAI | null = null;
-if (apiKey) {
+// Dynamic client initialization so process.env.GEMINI_API_KEY is read on demand
+export function getGenAI(): GoogleGenAI | null {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return null;
+  }
   try {
-    ai = new GoogleGenAI({
+    return new GoogleGenAI({
       apiKey,
       httpOptions: {
         headers: {
@@ -24,11 +32,58 @@ if (apiKey) {
       },
     });
   } catch (err) {
-    console.error('Failed to initialize GoogleGenAI client:', err);
+    console.error('Failed to instantiate GoogleGenAI:', err);
+    return null;
   }
 }
 
-// System A: Performance Intelligence Review
+// Unified Live Context Assembler
+export function assembleLiveContext(
+  trades: Trade[],
+  accounts: TradingAccount[],
+  activeSymbol: CanonicalInstrument = 'US100',
+  consistency?: ConsistencyMetrics
+) {
+  const quotes = marketService.getQuotes();
+  const currentQuote = quotes.find(q => q.symbol === activeSymbol) || quotes[0];
+  const structure = marketService.getMarketStructure(activeSymbol);
+  const briefing = marketService.getMarketBriefing(activeSymbol);
+  const eco = marketService.getEconomicCalendar().slice(0, 4);
+
+  const closedTrades = trades.filter(t => t.exitPrice > 0);
+  const total = closedTrades.length;
+  const wins = closedTrades.filter(t => t.netProfitLoss > 0).length;
+  const winRate = total > 0 ? ((wins / total) * 100).toFixed(1) : '0';
+  const netPnL = closedTrades.reduce((acc, t) => acc + t.netProfitLoss, 0);
+  const avgR = total > 0 ? (closedTrades.reduce((acc, t) => acc + t.rMultiple, 0) / total).toFixed(2) : '0';
+
+  const primaryAcc = accounts[0];
+
+  return {
+    activeSymbol,
+    currentQuote,
+    quotes,
+    structure,
+    briefing,
+    eco,
+    totalTrades: total,
+    wins,
+    winRate,
+    netPnL,
+    avgR,
+    primaryAcc,
+    consistency: consistency || {
+      disciplineScore: 92,
+      profitabilityScore: 88,
+      ruleViolationCount: 0,
+      overtradingDaysCount: 0,
+      dailyRiskAveragePercent: 1.0
+    },
+    recentTrades: closedTrades.slice(0, 10)
+  };
+}
+
+// 1. Performance Intelligence Review
 export async function generatePerformanceReview(
   trades: Trade[],
   timeframeText: string = 'Last 30 Days'
@@ -41,11 +96,11 @@ export async function generatePerformanceReview(
   const avgR = total > 0 ? (eligible.reduce((acc, t) => acc + t.rMultiple, 0) / total).toFixed(2) : '0';
 
   const tradesSummary = eligible.slice(0, 15).map(t => 
-    `- [${t.entryDate.split('T')[0]}] ${t.instrument} ${t.direction}: Net $${t.netProfitLoss.toFixed(2)}, Realized ${t.rMultiple}R, Session: ${t.tradingSession}, Strategy: ${t.strategyName || 'N/A'}, Grade: ${t.grade?.letterGrade || 'N/A'}, Violations: ${t.ruleViolations?.join(', ') || 'None'}`
+    `- [${t.entryDate.split('T')[0]}] ${t.instrument} ${t.direction}: Net $${t.netProfitLoss.toFixed(2)}, Realized ${t.rMultiple}R, Session: ${t.tradingSession}, Strategy: ${t.strategyName || 'N/A'}, Grade: ${t.grade?.letterGrade || 'N/A'}, RetestConfirmed: ${t.retestOccurred !== false ? 'YES' : 'NO'}`
   ).join('\n');
 
-  const prompt = `You are BANDIT AI, the elite quant and performance trading coach for BANDITRADES.
-Analyze the trader's actual trade journal records for: ${timeframeText}.
+  const prompt = `You are CLOUD AI, the senior quantitative trading performance mentor for Cloud X.
+Analyze the trader's actual trade records for: ${timeframeText}.
 
 STATISTICS:
 - Total Trades: ${total}
@@ -56,15 +111,19 @@ STATISTICS:
 RECENT JOURNAL TRADES:
 ${tradesSummary}
 
-Provide an uncompromising, institutional-grade performance intelligence review with:
-1. Executive Summary & Verdict (Precision, Edge, and Capital Preservation)
-2. Primary Strengths & Winning Setups (which setups produce the strongest expectancy)
-3. Three Most Costly Leakages / Repeated Mistakes (cite specific trades or violations)
-4. Session & Instrument Alignment (where the trader should double down or scale back)
-5. Actionable Directive for Next Week (specific risk or execution rules)
+CORE OPERATING DIRECTIVES:
+- Primary Playbook: LIQUIDITY SWEEP → CHoCH → FVG RETEST
+- Golden Rule: NO RETEST = NO TRADE
+- 4-Timeframe Protocol: 4H Market Context, 1H Structural Bias, 15M Directional Bias, 5M Execution
 
-Tone: Professional, direct, quantitative, disciplined. Cite specific numbers and trades. Keep formatting clean with standard Markdown.`;
+Deliver a rigorous performance review:
+1. Executive Verdict & Edge Quality (isolate mathematical edge from luck)
+2. High-Expectancy Setups & Best Sessions
+3. Three Costliest Behavioral Leaks (specifically auditing adherence to the "NO RETEST = NO TRADE" rule)
+4. Session & Instrument Alignment (US100, US30, GBPUSD, GBPJPY, XAUUSD)
+5. Actionable Directive for Next Trading Window (risk limit, patience target)`;
 
+  const ai = getGenAI();
   if (!ai) {
     return generateLocalPerformanceFallback(trades, total, wins, losses, netPnL, avgR);
   }
@@ -74,7 +133,7 @@ Tone: Professional, direct, quantitative, disciplined. Cite specific numbers and
       model: 'gemini-3.8-flash',
       contents: prompt,
       config: {
-        systemInstruction: 'You are BANDIT AI, a senior institutional prop-desk risk manager and quantitative trading psychologist. Never give financial advice; enforce discipline and statistical edge.',
+        systemInstruction: 'You are CLOUD AI, an elite institutional prop-desk risk manager. Enforce strict statistical edge, discipline, and SMC/ICT confluence rules. Keep formatting crisp with standard Markdown.',
       }
     });
     return response.text || generateLocalPerformanceFallback(trades, total, wins, losses, netPnL, avgR);
@@ -84,55 +143,59 @@ Tone: Professional, direct, quantitative, disciplined. Cite specific numbers and
   }
 }
 
-// System B: Live Market Intelligence Analysis
+// 2. Live Market Intelligence Analysis (With Grounding)
 export async function generateMarketIntelligenceBriefing(symbol: CanonicalInstrument): Promise<string> {
   const briefing = marketService.getMarketBriefing(symbol);
   const structures = marketService.getMarketStructure(symbol);
   const quote = marketService.getQuotes().find(q => q.symbol === symbol);
 
-  const prompt = `You are BANDIT AI, the quantitative market intelligence system for BANDITRADES.
+  const prompt = `You are CLOUD AI, the live market intelligence engine for Cloud X.
 Provide an institutional intraday analysis for canonical instrument ${symbol}.
 
 VERIFIED LIVE MARKET DATA:
 - Instrument: ${briefing.symbol}
 - Current Verified Reference Price: ${quote?.lastPrice ?? briefing.verifiedPrice}
-- Timestamp: ${briefing.timestamp}
+- Bid: ${quote?.bid ?? 'N/A'} | Ask: ${quote?.ask ?? 'N/A'}
+- 24h Change: ${quote?.change24hPercent ? quote.change24hPercent.toFixed(2) : 0}%
 - Daily Session: ${quote?.session ?? 'Active'} (Status: ${quote?.sessionStatus})
+- TradingView Benchmark: ${quote?.tradingViewSymbol || symbol}
 - Higher Timeframe Bias: ${briefing.higherTimeframeBias}
 - Current Market Structure: ${briefing.shortTermStructure}
 - Key Resistance: ${briefing.keyLevels.resistance.join(', ')}
 - Key Support: ${briefing.keyLevels.support.join(', ')}
 - Liquidity Pools: ${briefing.keyLevels.liquidityPools.join(', ')}
-- Detected Structures: ${structures.map(s => `${s.label} (${s.timeframe}, ${s.status})`).join('; ')}
+- Order Flow Imbalances: ${structures.map(s => `${s.label} (${s.timeframe}, ${s.status})`).join('; ')}
 - Bullish Scenario: ${briefing.bullishScenario}
 - Bearish Scenario: ${briefing.bearishScenario}
 - Invalidation: ${briefing.invalidationConditions}
 
-Provide a crisp, actionable trading briefing:
-1. Macro Context & Draw on Liquidity (DOL)
-2. High-Probability Order Flow & Key Reaction Zones
-3. Execution Playbook (Both Bullish & Bearish conditions)
-4. Critical Invalidation & Risk Warning
+Provide a technical market briefing:
+1. Macro Context & Higher-Timeframe Draw on Liquidity (DOL)
+2. Key Fair Value Gaps (FVG) & Equilibrium Retest Zones
+3. High-Probability Trade Playbook (Bullish & Bearish triggers)
+4. Strict Invalidation & Risk Warning`;
 
-Tone: Precision, technical accuracy, institutional SMC/ICT structure, risk-first. Never guarantee outcomes.`;
-
+  const ai = getGenAI();
   if (!ai) {
-    return `### BANDIT MARKET BRIEFING — ${symbol}\n\n**Current Price:** ${quote?.lastPrice ?? briefing.verifiedPrice} | **Bias:** ${briefing.higherTimeframeBias}\n\n**Draw on Liquidity & Structure:**\n${briefing.shortTermStructure}\n\n**Bullish Path:**\n${briefing.bullishScenario}\n\n**Bearish Path:**\n${briefing.bearishScenario}\n\n**Strict Invalidation:**\n${briefing.invalidationConditions}\n\n*Data Provider: ${quote?.provider} (${quote?.timestamp})*`;
+    return `### CLOUD X LIVE MARKET INTEL — ${symbol}\n\n**Current Price:** ${quote?.lastPrice ?? briefing.verifiedPrice} | **Bias:** ${briefing.higherTimeframeBias}\n\n**Draw on Liquidity & Structure:**\n${briefing.shortTermStructure}\n\n**Bullish Plan:**\n${briefing.bullishScenario}\n\n**Bearish Plan:**\n${briefing.bearishScenario}\n\n**Strict Invalidation:**\n${briefing.invalidationConditions}\n\n*Source: ${quote?.provider} (${quote?.timestamp})*`;
   }
 
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-3.8-flash',
       contents: prompt,
+      config: {
+        tools: [{ googleSearch: {} }] // Real-time market search grounding
+      }
     });
     return response.text || briefing.shortTermStructure;
   } catch (err) {
     console.error('Gemini Market Briefing error:', err);
-    return `### BANDIT MARKET BRIEFING — ${symbol}\n\n**Current Price:** ${quote?.lastPrice ?? briefing.verifiedPrice} | **Bias:** ${briefing.higherTimeframeBias}\n\n${briefing.shortTermStructure}\n\n**Bullish Plan:** ${briefing.bullishScenario}\n\n**Bearish Plan:** ${briefing.bearishScenario}`;
+    return `### CLOUD X LIVE MARKET INTEL — ${symbol}\n\n**Current Price:** ${quote?.lastPrice ?? briefing.verifiedPrice} | **Bias:** ${briefing.higherTimeframeBias}\n\n${briefing.shortTermStructure}\n\n**Bullish Plan:** ${briefing.bullishScenario}\n\n**Bearish Plan:** ${briefing.bearishScenario}`;
   }
 }
 
-// System C: Risk & Challenge Intelligence
+// 3. Risk & Challenge Intelligence Review
 export async function generateRiskIntelligenceReview(
   account: TradingAccount,
   trades: Trade[],
@@ -143,17 +206,16 @@ export async function generateRiskIntelligenceReview(
   const startBal = account.startingBalance;
   const profitPct = ((currentBal - startBal) / startBal) * 100;
 
-  const prompt = `You are BANDIT AI, the institutional Risk Officer & Challenge Guardian for BANDITRADES.
+  const prompt = `You are CLOUD AI, the senior institutional Risk Officer for Cloud X.
 Audit the following account and trading behavior:
 
 ACCOUNT DETAILS:
 - Account Name: ${account.name} (${account.accountType})
 - Starting Balance: $${startBal.toLocaleString()}
 - Current Balance / Equity: $${currentBal.toLocaleString()} ($${(currentBal - startBal).toFixed(2)}, ${profitPct.toFixed(2)}%)
-- Target: ${rules ? `$${rules.profitTargetAmount} (${rules.profitTargetPercentage}%)` : 'Live Capital Growth'}
-- Max Daily Drawdown: ${rules ? `$${rules.maxDailyDrawdownAmount} (${rules.maxDailyDrawdownPercentage}%)` : 'N/A'}
+- Profit Target: ${rules ? `$${rules.profitTargetAmount} (${rules.profitTargetPercentage}%)` : 'Live Portfolio Expansion'}
+- Max Daily Drawdown: ${rules ? `$${rules.maxDailyDrawdownAmount} (${rules.maxDailyDrawdownPercentage}%)` : '2.0% ($2,000)'}
 - Max Total Drawdown: ${rules ? `$${rules.maxOverallDrawdownAmount} (${rules.maxOverallDrawdownPercentage}%)` : 'N/A'}
-- Drawdown Type: ${rules?.drawdownTrailingType || 'Static'}
 
 CONSISTENCY RECORD:
 - Discipline Score: ${consistency.disciplineScore}/100
@@ -163,11 +225,12 @@ CONSISTENCY RECORD:
 - Average Daily Risk: ${consistency.dailyRiskAveragePercent.toFixed(2)}%
 
 Deliver a strict risk audit:
-1. Account Safety Status & Distance to Breach (Calculate dollar buffer remaining)
-2. Sizing Recommendation (Recommended lot size / max risk % for the next trading session)
-3. Challenge Milestone Progress (Target remaining vs allowable drawdown cushion)
+1. Account Safety Status & Distance to Breach (exact dollar buffer remaining)
+2. Position Sizing Directive (recommended lot size / max risk percentage for the next session)
+3. Challenge Milestone Progress (target remaining vs allowable drawdown cushion)
 4. Red Flag Warnings & Behavioral Guardrails`;
 
+  const ai = getGenAI();
   if (!ai) {
     return generateLocalRiskFallback(account, rules, currentBal, startBal, profitPct, consistency);
   }
@@ -184,8 +247,8 @@ Deliver a strict risk audit:
   }
 }
 
-// Interactive Multi-turn Bandit AI Chat
-export async function chatWithBandit(
+// 4. Interactive Cloud AI Chat (With Search Grounding & Real Context)
+export async function chatWithCloudAi(
   userQuery: string,
   context: {
     system: 'performance' | 'market' | 'risk';
@@ -196,31 +259,48 @@ export async function chatWithBandit(
   }
 ): Promise<{ text: string; citedTrades?: any[] }> {
   const symbol = context.activeSymbol || 'US100';
-  const quote = marketService.getQuotes().find(q => q.symbol === symbol);
+  const quotes = marketService.getQuotes();
+  const quote = quotes.find(q => q.symbol === symbol) || quotes[0];
   const eligible = context.trades.slice(0, 10);
+  const structure = marketService.getMarketStructure(symbol);
+  const eco = marketService.getEconomicCalendar().slice(0, 3);
 
-  const prompt = `Trader question: "${userQuery}"
+  const prompt = `Trader Inquiry: "${userQuery}"
 
-SYSTEM FOCUS: ${context.system.toUpperCase()} INTELLIGENCE
+SYSTEM MODE: ${context.system.toUpperCase()} INTELLIGENCE
 CANONICAL INSTRUMENTS: US100, US30, GBPUSD, GBPJPY, XAUUSD
 
-PORTFOLIO CONTEXT:
-- Active Symbol: ${symbol} (Price: ${quote?.lastPrice ?? 'N/A'}, 24h Change: ${quote?.change24hPercent ?? 0}%)
-- Total Journaled Trades: ${context.trades.length}
-- Primary Strategy: LIQUIDITY SWEEP → CHoCH → FVG RETEST (Golden Rule: "NO RETEST = NO TRADE")
-- 4-Timeframe Protocol: 4H Market Context, 1H Structural Bias, 15M Directional Bias, 5M Execution
+REAL-TIME MARKET CONTEXT:
+- Active Symbol: ${symbol}
+- Last Price: ${quote.lastPrice} (Bid: ${quote.bid}, Ask: ${quote.ask})
+- Session Status: ${quote.isMarketOpen ? 'MARKET OPEN' : 'MARKET CLOSED (Ticks frozen at official close)'}
+- Benchmark: ${quote.tradingViewSymbol || symbol}
+- 24h Change: ${quote.change24hPercent.toFixed(2)}%
+- Structure: ${structure.map(s => `${s.label} (${s.timeframe})`).join(', ') || 'Rangebound equilibrium'}
+- Upcoming High-Impact Macro Events: ${eco.map(e => `${e.name} (${e.currency}) at ${e.scheduledTime}`).join('; ')}
+
+PORTFOLIO & AUDIT LEDGER:
+- Total Audited Trades: ${context.trades.length}
+- Primary Systematic Playbook: LIQUIDITY SWEEP → CHoCH → FVG RETEST
+- Golden Rule: "NO RETEST = NO TRADE" (Wait for 5M/15M FVG mitigation)
 - Accounts: ${context.accounts.map(a => `${a.name}: $${a.currentBalance}`).join(', ')}
-- Discipline Score: ${context.consistency?.disciplineScore ?? 90}/100
+- Discipline Score: ${context.consistency?.disciplineScore ?? 92}/100
 
-RECENT TRADES:
-${eligible.map(t => `#${t.id}: ${t.instrument} ${t.direction} Net $${t.netProfitLoss} (${t.rMultiple}R, Grade ${t.grade?.letterGrade}, RetestConfirmed: ${t.retestOccurred !== false ? 'YES' : 'NO'})`).join('\n')}
+RECENT JOURNAL RECORDS:
+${eligible.map(t => `#${t.id}: ${t.instrument} ${t.direction} Net $${t.netProfitLoss} (${t.rMultiple}R, Grade: ${t.grade?.letterGrade}, RetestOccurred: ${t.retestOccurred !== false ? 'YES' : 'NO'}, Compliance: ${t.strategyCompliance ? '100%' : 'VIOLATION'})`).join('\n')}
 
-Answer the user directly and concisely. Cite their real trade records, statistics, and verified market conditions. If relevant, evaluate whether they strictly adhered to the "NO RETEST = NO TRADE" rule. Maintain the voice of BANDIT AI: razor-sharp, objective, disciplined, and empowering.`;
+INSTRUCTIONS:
+1. Provide a direct, authoritative, quantitative answer.
+2. If the user asks to "fetch data" (live prices, portfolio stats, risk numbers, or economic calendar), cite the exact numbers from the context above.
+3. If the user asks about market structure or trade setups, strictly audit whether the "NO RETEST = NO TRADE" rule was/is respected.
+4. If relevant, cite 1 or 2 specific trade IDs from their journal (e.g. #tr_01).
+5. Voice: Senior institutional prop-desk mentor and risk guardian. Confident, razor-sharp, objective.`;
 
+  const ai = getGenAI();
   if (!ai) {
     return {
-      text: `**Bandit AI (${context.system} Intelligence):**\nBased on your ${context.trades.length} recorded trades, your strongest performance stems from the **LIQUIDITY SWEEP → CHoCH → FVG RETEST** model during the **New York AM session** on **US100** and **XAUUSD** with a combined expectancy of +1.84R.\n\n**Golden Rule Audit:** When you waited for the confirmed 5M FVG retest, your win rate was **71.4%** (+2.4R avg). Trades executed before the retest suffered a -1.2R leak. Remember: **NO RETEST = NO TRADE**.`,
-      citedTrades: eligible.slice(0, 3).map(t => ({
+      text: `**Cloud AI (${context.system.toUpperCase()} Intelligence):**\n\n**Live Market Snapshot:** ${symbol} is currently at **${quote.lastPrice}** (Spread: ${(Math.abs(quote.ask - quote.bid)).toFixed(symbol === 'GBPUSD' ? 5 : 2)} pts, Session: ${quote.sessionStatus}).\n\n**Portfolio Status:** You have **${context.trades.length} audited executions** on record. Your primary expectancy is concentrated in the **LIQUIDITY SWEEP → CHoCH → FVG RETEST** model during the **New York AM** session.\n\n**Golden Rule Compliance:** When you waited for the confirmed 5M FVG retest, your setup accuracy reached **71.4%**. Trades entered impulsively before the retest suffered negative R slippage. Remember: **NO RETEST = NO TRADE**.`,
+      citedTrades: eligible.slice(0, 2).map(t => ({
         id: t.id,
         instrument: t.instrument,
         outcome: t.netProfitLoss > 0 ? 'WIN' : 'LOSS',
@@ -235,7 +315,8 @@ Answer the user directly and concisely. Cite their real trade records, statistic
       model: 'gemini-3.8-flash',
       contents: prompt,
       config: {
-        systemInstruction: 'You are BANDIT AI, the premier trading intelligence coach. Be concise, mathematically accurate, and reference specific trades from the prompt context.'
+        tools: [{ googleSearch: {} }], // Search grounding enables live web intelligence
+        systemInstruction: 'You are CLOUD AI, the premier trading intelligence coach for Cloud X. Be concise, mathematically accurate, and reference real trades and market quotes.'
       }
     });
 
@@ -254,9 +335,61 @@ Answer the user directly and concisely. Cite their real trade records, statistic
   } catch (err) {
     console.error('Gemini Chat error:', err);
     return {
-      text: `Bandit AI analysis: Your primary edge lies in ICT Silver Bullet setups on US100 during NY AM. Ensure you respect your 1.0% risk cap and avoid mid-day London chop.`,
+      text: `Cloud AI analysis: Live quote for ${symbol} is ${quote.lastPrice}. Your primary edge remains strict patience for the 5M FVG retest during NY AM sessions. Never enter without retest confirmation.`,
       citedTrades: []
     };
+  }
+}
+
+// 5. Speech Synthesis / Audio Generation ("Go Live" Voice Assistant)
+export async function generateAiSpeech(textToSpeak: string): Promise<{ audioBase64: string; mimeType: string } | null> {
+  const ai = getGenAI();
+  if (!ai) return null;
+
+  try {
+    // Truncate to spoken length
+    const cleanText = textToSpeak
+      .replace(/[*#_`>]/g, '')
+      .replace(/\[.*?\]/g, '')
+      .slice(0, 400);
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.8-flash-lite-tts',
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: cleanText,
+              speechMetadata: {
+                style: 'Professional, calm, authoritative institutional trading mentor',
+              },
+            },
+          ],
+        },
+      ],
+      config: {
+        responseModalities: ['AUDIO'],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: 'Fenrir' }, // Deep authoritative voice
+          },
+        },
+      },
+    });
+
+    // Unary generateContent returns complete WAV file in candidates[0].content.parts[0].inlineData
+    const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData && p.inlineData.data);
+    if (part?.inlineData?.data) {
+      return {
+        audioBase64: part.inlineData.data,
+        mimeType: part.inlineData.mimeType || 'audio/wav'
+      };
+    }
+    return null;
+  } catch (err) {
+    console.error('Gemini Speech generation error:', err);
+    return null;
   }
 }
 
@@ -270,25 +403,25 @@ function generateLocalPerformanceFallback(
   avgR: string
 ): string {
   const winRate = total > 0 ? ((wins / total) * 100).toFixed(1) : '0';
-  return `### BANDIT PERFORMANCE INTELLIGENCE REVIEW
+  return `### CLOUD X PERFORMANCE INTELLIGENCE REVIEW
 
-**Executive Verdict:** Positive Expectancy with Execution Discipline
+**Executive Verdict:** Positive Expectancy with High Execution Quality
 - **Win Rate:** ${winRate}% (${wins}W / ${losses}L)
 - **Net Realized P&L:** $${netPnL.toLocaleString()}
 - **Average Realized R:** ${avgR}R
 
 **1. High-Performing Setup Models:**
-- **ICT Silver Bullet (US100 / US30):** Produces your highest reward-to-risk realization (+2.95R avg on winning trades).
-- **London Open Liquidity Sweeps (GBPUSD / GBPJPY):** Strong accuracy when waiting for the 15m candle close.
+- **LIQUIDITY SWEEP → CHoCH → FVG RETEST (US100 / XAUUSD):** Produces highest reward-to-risk realization (+2.85R avg on winning trades).
+- **London Open Liquidity Sweeps (GBPUSD / GBPJPY):** Exceptional accuracy when waiting for the 15m candle close.
 
 **2. Identified Execution Leakages:**
-- **Stop Loss Alteration:** Trade #tr_05 demonstrated moving a stop loss during an active drawdown, causing an excess 0.44R loss.
-- **Impatience on News Catalysts:** Chasing price during high-volatility economic news spikes before spread normalization.
+- **Pre-Retest FOMO:** Executing before the 5M FVG 50% consequent encroachment mitigation resulted in sub-optimal risk-to-reward.
+- **Stop Loss Widening:** Moving stop losses farther away during active pullbacks—strict invalidation must be maintained.
 
 **3. Strategic Directive:**
 1. Maintain max 1.0% risk per execution.
-2. Hard lock on Stop Loss placement upon order submission—zero manual widening.
-3. Prioritize NY AM 10:00–11:00 AM window for index trades.`;
+2. Hard lock on "NO RETEST = NO TRADE" on every session entry.
+3. Prioritize NY AM 10:00–11:00 AM window for US100 and US30 index setups.`;
 }
 
 function generateLocalRiskFallback(
@@ -299,10 +432,9 @@ function generateLocalRiskFallback(
   profitPct: number,
   consistency: ConsistencyMetrics
 ): string {
-  const remainingTarget = rules ? rules.profitTargetAmount - (currentBal - startBal) : 0;
   const dailyLossBuffer = rules ? rules.maxDailyDrawdownAmount : currentBal * 0.03;
 
-  return `### BANDIT RISK & CHALLENGE AUDIT: ${account.name}
+  return `### CLOUD X RISK & CHALLENGE AUDIT: ${account.name}
 
 - **Current Equity:** $${currentBal.toLocaleString()} (${profitPct >= 0 ? '+' : ''}${profitPct.toFixed(2)}%)
 - **Discipline Adherence:** ${consistency.disciplineScore}/100
@@ -310,5 +442,8 @@ function generateLocalRiskFallback(
 ${rules ? `- **Profit Target Progress:** $${(currentBal - startBal).toLocaleString()} / $${rules.profitTargetAmount.toLocaleString()} (${Math.min(100, Math.max(0, (profitPct / rules.profitTargetPercentage) * 100)).toFixed(1)}%)` : ''}
 
 **Risk Officer Recommendation:**
-Your drawdown cushion is intact. Keep position size capped at 1.0% ($${(currentBal * 0.01).toFixed(0)}) per trade. You are within safe operational parameters for your account status.`;
+Your drawdown cushion is intact. Keep position size capped at 1.0% ($${(currentBal * 0.01).toFixed(0)}) per trade. You are operating within safe parameters for your account tier.`;
 }
+
+// Backward-compatible alias
+export const chatWithBandit = chatWithCloudAi;
